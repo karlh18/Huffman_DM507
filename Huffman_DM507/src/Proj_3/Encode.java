@@ -113,9 +113,9 @@ public class Encode {
             // flin = new FileInputStream("D:\\isnfaos");
             // Wrap the new bit streams around the input/output streams.
             BitInputStream bitInputStream = new BitInputStream(flin); 
-            while(tempr == flin.read() != 0) {  
-               int temp = (int) flin.read(); 
-               
+            while((tempr = flin.read()) != 0) {  
+               // int temp = (int) flin.read(); 
+               alphabet[tempr]++;
                
             
             }
