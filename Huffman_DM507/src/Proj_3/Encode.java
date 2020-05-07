@@ -19,8 +19,8 @@ import java.util.logging.Logger;
 public class Encode {    
     
     
-    
-
+  //  BinNode HNode = new BinNode(); 
+    PQ z = new PQHeap();
     int counter = 0;
     int[] alphabet = new int[256];
     int[] isIndex = new int[256];   // used to compare
@@ -56,23 +56,29 @@ public class Encode {
         //      System.out.println(d);
     }
     
-    public int[] huffMan(int[] alphabet) {
-         
-        int n = alphabet.length;
-         // Q = new PQHeap();
-        int[] Q = alphabet;
-        
-        for (int i = 1; i < n - 1; i++) {
-            //z = new PQHeap();
+    public void huffMan(int[] alphabet) {
 
-            // z.left(z.extractMin(Q));  
-            // z.right(z.extractMin(Q)):
-            //z.INSERT
-            //return z.extractMin();
+        int n = alphabet.length;
+        // Q = new PQHeap();
+        PQ Q = new PQHeap();
+
+        for (int i = 0; i < n - 1; i++) {
+     
+//            Q.insert(new Element(, i));
         }
-        
-        return Q;
-        
+
+        for (int i = 1; i < n - 1; i++) {
+//           z = new PQHeap();
+//
+//           z.left(z.extractMin(Q));  
+//           z.right(z.extractMin(Q)):
+//           z.insert();
+//           
+//               return z.extractMin();
+        }
+
+
+
     }
     
     public void insertIntoAlphath(String File) {
