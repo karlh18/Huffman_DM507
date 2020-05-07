@@ -26,7 +26,7 @@ public class Encode {
     int[] isIndex = new int[256];   // used to compare
     //  int[] tree = new int[256];  // huffmans converted tree --> table 
 
-    PQHeap z;
+   // PQHeap Q;
     
 //    public Encode(String fil) throws IOException {
 //        
@@ -57,13 +57,13 @@ public class Encode {
     }
     
     public int[] huffMan(int[] alphabet) {
-        
+         
         int n = alphabet.length;
-        
+         // Q = new PQHeap();
         int[] Q = alphabet;
         
         for (int i = 1; i < n - 1; i++) {
-            z = new PQHeap();
+            //z = new PQHeap();
 
             // z.left(z.extractMin(Q));  
             // z.right(z.extractMin(Q)):
@@ -107,7 +107,8 @@ public class Encode {
     // alphabet[d} ++; 
     public void countBytes(String[] a) throws IOException {  
 
-        int  tempr = 0;
+        int  tempr = 0; 
+        // Freq table  --> temp value      
         try ( FileInputStream flin = new FileInputStream(a[0])) {
 
             // flin = new FileInputStream("D:\\isnfaos");

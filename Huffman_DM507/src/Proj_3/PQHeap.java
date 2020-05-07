@@ -1,11 +1,9 @@
+package Proj_3; 
 
-// Not sure if this is the correct PQHeap
-package Proj_3; // Delete after Hand-IN 
-
+import Proj_3.Element;
+import Proj_3.PQ;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.PriorityQueue;
 
 /**
  * @author Karl Amadeus Finsson Hansen - karlh18@student.sdu.dk
@@ -14,22 +12,10 @@ import java.util.PriorityQueue;
  */
 public class PQHeap implements PQ {
 
-    int data;
-    
-  //  PriorityQueue<PQHeap> Q 
-  //          = new PriorityQueue<PQHeap>(256, new Comparator() {
-  //      @Override
- //       public int compare(PQHeap o1, PQHeap o2) {
- //           return o1.data - o2.data;
-
-  //      }
-  //  }); 
-    
-    
-    // Stores the heap
+    // Stores the heap 
     ArrayList<Element> heap;
 
-    // Initializes an empty Arraylist
+    // Initializes an empty heap
     public PQHeap() {
         heap = new ArrayList<>();
     }
@@ -60,7 +46,7 @@ public class PQHeap implements PQ {
     // Makes it into a Min Heap
     public void minHeapify(ArrayList<Element> a, int i) {
 
-        // Used to store smalles variable found in the three nodes (Parent, left child, right child) 
+        // Used to store smallest variable found in one of the three nodes (Parent, left child, right child) 	
         int smallest;
 
         // Representation of left & right child 
@@ -96,19 +82,20 @@ public class PQHeap implements PQ {
     }
 
     
-    // Returns the element with minimum value
+    // Returns the element with the min
     @Override
     public Element extractMin() {
 
-        // Gets the minimum value 
+        // Gets the min
         // and at the end of the method returns it 
         Element min = heap.get(0);
 
-        // Sets the index from the last index on the array to the first 
+        // Sets the index from the last index on the array to the first
         heap.set(0, heap.get(heap.size() - 1));
 
         // Remove the last index 
         heap.remove(heap.size() - 1);
+	// makes it a minheap again 
         minHeapify(heap, 0);
 
         // returns the min 
@@ -126,7 +113,7 @@ public class PQHeap implements PQ {
         // Adds an element to the end of the heap 
         heap.add(e);
 
-        // sets i to be the last index    
+        // sets i to be the last index     
         int i = heap.size() - 1;
 
         // Keeps comparing the parent and i's current position until i is root 
@@ -143,3 +130,6 @@ public class PQHeap implements PQ {
 
     }
 }
+
+
+// Nicklas kommentar: Supder, det ser godt ud! Fint med kommentarer :)
