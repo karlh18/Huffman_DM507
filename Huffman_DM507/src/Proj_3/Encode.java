@@ -52,7 +52,7 @@ public class Encode {
     
     
     //Task 2) Use the Huffman Algorithm with the Occurrence Table as input ( Use all 256 entries, also those, that do not ocur) 
-    public void huffmanAlgorithm(int[] alphabet) {
+    public BinNode huffmanAlgorithm(int[] alphabet) {
 
         int n = alphabet.length;
         //minHeap
@@ -78,14 +78,15 @@ public class Encode {
                 // I just guess we start @Index 0  and then move to second last index which is length -2 in java ArrayList
         for (int i = 0; i < n-2; i++) {
             
-            Element x = priorityQueue.extractMin();
-            Element y = priorityQueue.extractMin();
-            int sum= x.getKey() + y.getKey();
-            
-            
-            
+            BinNode x = (BinNode)priorityQueue.extractMin().getData();
+            BinNode y = (BinNode)priorityQueue.extractMin().getData();
+            int sum= x.key + y.key;
+            BinNode z = new BinNode(sum);
+            z.binNodeLeft = x;
+            z.binNodeRight = y;
         }
 
+        return (BinNode) priorityQueue.extractMin().getData();
         
 
     }
