@@ -55,23 +55,38 @@ public class Encode {
     public void huffmanAlgorithm(int[] alphabet) {
 
         int n = alphabet.length;
-        // Q = new PQHeap();
-        PQ Q = new PQHeap();
-
-        for (int i = 0; i < n - 1; i++) {
-
-//            Q.insert(new Element(, i));
+        //minHeap
+        PQ priorityQueue = new PQHeap();
+        
+        
+        // Q = C 
+            // Initialize the Priority Queue with the Characters 
+        for(int i=0; i<n-1; i++){
+           
+            DictBinTree tree = new DictBinTree();
+            // Add element into tree? 
+            tree.insert(i); // Not sure if correct          // Should this be changed
+            // Add a tree
+            Element e = new Element(alphabet[i], tree );
+            
+            priorityQueue.insert(e);
+        
+        }
+           
+        // for i = 1 to n-1 
+            // Not entirely sure how it translates from pseudo to our yet. So I will just minus it as usual 
+                // I just guess we start @Index 0  and then move to second last index which is length -2 in java ArrayList
+        for (int i = 0; i < n-2; i++) {
+            
+            Element x = priorityQueue.extractMin();
+            Element y = priorityQueue.extractMin();
+            int sum= x.getKey() + y.getKey();
+            
+            
+            
         }
 
-        for (int i = 1; i < n - 1; i++) {
-//           z = new PQHeap();
-//
-//           z.left(z.extractMin(Q));  
-//           z.right(z.extractMin(Q)):
-//           z.insert();
-//           
-//               return z.extractMin();
-        }
+        
 
     }
 
