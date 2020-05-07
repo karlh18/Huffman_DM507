@@ -4,6 +4,8 @@ package Proj_3; // Delete after Hand-IN
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
  * @author Karl Amadeus Finsson Hansen - karlh18@student.sdu.dk
@@ -12,6 +14,18 @@ import java.util.Collections;
  */
 public class PQHeap implements PQ {
 
+    int data;
+    
+  //  PriorityQueue<PQHeap> Q 
+  //          = new PriorityQueue<PQHeap>(256, new Comparator() {
+  //      @Override
+ //       public int compare(PQHeap o1, PQHeap o2) {
+ //           return o1.data - o2.data;
+
+  //      }
+  //  }); 
+    
+    
     // Stores the heap
     ArrayList<Element> heap;
 
