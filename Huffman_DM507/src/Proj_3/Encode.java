@@ -6,9 +6,12 @@ package Proj_3;
     // Questions: Should I use all those 0 as entries in the left side of the graph ? the tree/graph goes millions time to the left ?
     // Questions: Should the new Node "z" at line 94 have anything in it's constructor? -- Set it as 0 or what?
     // TODO: Delete the unneeded comments & clear up on the others less illustrative ones
-    // Tests Done
+    // TODO: Create a Class called Huffman  or simular, since the code is used in both Encode & Decode
+    // Tests Done - Pretty sure it works as intended  but need revisit 
         // Works : Checked if I return the last Node in the Heap()
-// Method 3a:  
+// Method 3a:  dictBinTree.in_order_walk_with_path()
+    // Questions: Does it make any difference what I set as the key ?  Isn't it irrelevant ? 
+// Method 3b:  saveCode
 
 
 import java.io.FileInputStream;
@@ -65,6 +68,8 @@ public class Encode {
 
         // Q = C 
         // Initialize the Priority Queue with 256 items aka the Characters to the queue 
+        
+        
         for (int i = 0; i < n - 1; i++) {
 
             // Each node represents a character 
@@ -73,6 +78,7 @@ public class Encode {
             // Add an Element to the queue:  Frequency as Key in Element & the Tree/Node as data 
             Element e = new Element(alphabet[i], node);
             priorityQueue.insert(e);
+            
 
         }
     
@@ -123,12 +129,19 @@ public class Encode {
         // #Test2 - huffmanAlgorithm()
         BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
         // Uses the created graph  & adds it to the tree
-        DictBinTree dictBinTree = new DictBinTree();
-        dictBinTree.root = binNode;
+        encode.huffManTree = new DictBinTree();
+        encode.huffManTree.root = binNode;
         
-       
-//       dictBinTree.in_order_walk_with_path();
-       
+        //Test 3a:
+        encode.huffManTree.in_order_walk_with_path();
+        
+        // Test 3b:
+//        encode.createCodeLookupTable(encode.huffManTree);
+
+        
+        
+        
+        
      // TEST OF SAVECODE  
      
       // encode.saveCode(dictBinTree);
@@ -151,8 +164,10 @@ public class Encode {
     // Over the codes for each of the possible bytes 
     // Remember - The bytes are of the type int between 0 and 255 
     // and can be used as indexes in the arrays
-    public String[] saveCode(DictBinTree tree) {
+    public String[] createCodeLookupTable(DictBinTree tree) {
         ArrayList<String> code = tree.in_order_walk_with_path();
+        System.out.println("Length of ArrayList: " + code.size());
+        
         String[] codeArray = new String[256];
         // make toArray later
 

@@ -39,13 +39,16 @@ public class DictBinTree implements Dict {
     String[] codeAlphabet = new String[256];
     
     private ArrayList<String> in_order_walk_helper(String path, BinNode node, ArrayList<String> code) {
-        
+//        ArrayList<String> codes = new ArrayList<String>;
         if (node != null) {
             in_order_walk_helper(path + "O", node.binNodeLeft, code); //left subtree
-            System.out.println("Key " + node.key + ": " + path); // Print the key and the path
+            System.out.println("Key " + node.key + ": " + path); // Print the key and the path -- Think it makes no difference what the key is  ; hmm
+            if(node.binNodeLeft == null && node.binNodeRight ==null){
             code.add(path);
+            }
             in_order_walk_helper(path + "I", node.binNodeRight, code); // Right subtree
         }
+        System.out.println("total: " + code.size());
         return code;
     }
     
