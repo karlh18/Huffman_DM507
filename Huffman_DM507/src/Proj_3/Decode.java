@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,7 +123,10 @@ public class Decode {
     public int[] decodingBits(int[] freqTable, String inputFile, String outputFile ) {
 
          int bitsofar =0;
-         int totalbits = calcBytes(freqTable);
+         int totalbits = calcBytes(freqTable);   
+         List<Integer> list = new ArrayList<>();
+              
+         String s =""; 
         try(FileInputStream input = new FileInputStream(inputFile); 
             BitInputStream bitInput = new BitInputStream(input);   
             FileOutputStream output = new FileOutputStream(outputFile);
@@ -130,9 +135,20 @@ public class Decode {
             
             while(bitsofar < totalbits){
             
-            int i = bitInput.readBit();  
-            
+             s += bitInput.readBit();    
+                
+          
+             for(int i = 0; i< freqTable.length-1; i++){
+             
+                if(s.equals(freqTable[i])){
+                   list.add(i);
+               //    bitput.writeBit(i); 
+                   s = "";
+                }
+             }
+             
               
+            
             }
 //          for( int i = 0; i < bytes.length-1 ; i++){
 //          bytes[i] = bitInput.readBit();  
@@ -143,12 +159,19 @@ public class Decode {
         } catch (Exception e) {
         }
         
-        
+
            return freqTable;  
     }
 
     
+     
+    public void convertto32Bits(){
     
+    // 
+    
+        
+        
+    }
     
     
 }
