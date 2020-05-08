@@ -1,5 +1,12 @@
 package Proj_3;
 
+// Method 1 countFrequency Tested and is succesful
+// Method 2 huffManAlgorithm
+    // Questions: Should it be a tree or a node that it uses to create graph/tree or okay to just go through nodes then set it into a tree?
+    // Questions: Should I use all those 0 as entries in the left side of the graph ? the tree/graph goes millions time to the left ?
+    // Questions: Should the new Node "z" at line 94 have anything in it's constructor? -- Set it as 0 or what?
+    // TODO: Delete the unneeded comments & clear up on the others less illustrative ones
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,7 +42,7 @@ public class Encode {
             // Use the read method from FileInputStream  to read a byte (8bits) from a file
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitInputstream 
             while ((temp = input.read()) != -1) {
-                System.out.println(temp); // used to test if it reads correct
+//                System.out.println(temp); // used to test if it reads correct
                 alphabet[temp]++;
             }
         } catch (FileNotFoundException ex) {
@@ -43,9 +50,9 @@ public class Encode {
         }
     }
     
-    //Task 2) Use the Huffman Algorithm with the Occurrence Table as input ( Use all 256 entries, also those, that do not occur  
+    //Task 2) Use the Huffman Algorithm with the alphabet Table as input ( Use all 256 entries, also those, that do not occur  
     // Creates a HuffmanTree 
-     public BinNode huffmanAlgorithm(int[] alphabet) {
+    public BinNode huffmanAlgorithm(int[] alphabet) {
 
         int n = alphabet.length;
 
@@ -53,44 +60,43 @@ public class Encode {
         PQ priorityQueue = new PQHeap();
 
         // Q = C 
-        // Initialize the Priority Queue with the Characters 
+        // Initialize the Priority Queue with 256 items aka the Characters to the queue 
         for (int i = 0; i < n - 1; i++) {
 
+            // Each node represents a character 
             BinNode node = new BinNode(i);
 
-            // Add element into tree? 
-            node.key = i ; // Not sure if correct          // Should this be changed ? 
-
-            // Add a tree
+            // Add an Element to the queue:  Frequency as Key in Element & the Tree/Node as data 
             Element e = new Element(alphabet[i], node);
-
             priorityQueue.insert(e);
 
         }
-
+    
+        // ########CAN BE DELETE VERY SOOOON###############################
+        //int counter = 0; // used for test
         // for i = 1 to n-1 
         // Not entirely sure how it translates from pseudo to our yet. So I will just minus it as usual 
         // I just guess we start @Index 0  and then move to second last index which is length -2 in java ArrayList
+        // ################################################################
+        
+        
+        // For loop: Takes everything out of the Priority Queue except for the last one
         for (int i = 0; i < n - 2; i++) {
 
-            // Doesn't this provide us with a tree instead of a node?
-            // Should be tree or node? hmmm
-            // Extract the elements with the lowest key in the heap
-            // and get their sum
+            // Extract the 2 elements with the lowest frequency(key) in the heap
             Element x = priorityQueue.extractMin();
             Element y = priorityQueue.extractMin();
-            int sum = x.getKey() + y.getKey();
-            System.out.println(sum);
-            // Used later to get the nodes left 
-            BinNode xx = (BinNode) x.getData();
-            BinNode yy = (BinNode) y.getData();
 
-            // Creates new tree & adds the two previous as children
-            BinNode z = new BinNode(sum);
-            z.binNodeLeft =  (BinNode) x.getData();
-            z.binNodeRight =(BinNode) y.getData();
+            int sum = x.getKey() + y.getKey(); // sum used as key for a newly created Node, which will be set as parent of the two extracted nodes. 
 
-            // Adds the new tree to the priority queue
+            // System.out.println("counter: " + counter++ + " sum : " + sum); // Used for test ##############Can be deleted soon
+         
+            // Creates new node/tree & adds the two extracted nodes
+            BinNode z = new BinNode(sum);   // Not sure if this should have anything  or if it should have 0 ???  Or does it not matter?
+            z.binNodeLeft = (BinNode) x.getData();
+            z.binNodeRight = (BinNode) y.getData();
+
+            // Adds the new node/tree to the priority queue
             priorityQueue.insert(new Element(sum, z));
         }
 
@@ -103,20 +109,15 @@ public class Encode {
     
     // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
     public static void main(String[] args) throws IOException { 
-       // TEST OF countFrequencyOfBytes Method
+       // #Test1 - CountFrequency()
         String s = "hej.txt";
         Encode encode = new Encode();
         encode.countFrequencyOfBytes(s);  
 //        System.out.println(encode.alphabet[104]);
-//        System.out.println(encode.alphabet[107]); 
-//        
+//        System.out.println(encode.alphabet[107]);
 
-
-
-
-
-      // TEST OF huffmanAlgorithm  
- //     BinNode binNode = encode.huffmanAlgorithm2(encode.alphabet);  
+        // #Test2 - huffmanAlgorithm()
+        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  
        
 //       DictBinTree dictBinTree = new DictBinTree();
        
