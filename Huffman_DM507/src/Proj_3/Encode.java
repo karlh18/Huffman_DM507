@@ -31,7 +31,17 @@ public class Encode {
 //        
 
       // TEST OF huffmanAlgorithm  
-       encode.huffmanAlgorithm2(encode.alphabet);
+      BinNode binNode = encode.huffmanAlgorithm2(encode.alphabet);  
+       
+       DictBinTree dictBinTree = new DictBinTree();
+       
+       dictBinTree.root = binNode;
+       
+       dictBinTree.in_order_walk_with_path();
+       
+     // TEST OF SAVECODE  
+     
+      // encode.saveCode(dictBinTree);
         
         
 
@@ -170,8 +180,6 @@ public class Encode {
         }
 
         return (BinNode) priorityQueue.extractMin().getData();
-
-        // Might need change it to Node
     }
 
     //Task 3 )  Convert the Huffman Tree to a Table(An Array with 256 entries)
@@ -184,7 +192,8 @@ public class Encode {
         // make toArray later
 
         for (int i = 0; i < code.size() - 1; i++) {
-            codeArray[i] = code.get(i);
+            codeArray[i] = code.get(i);  
+            System.out.println(codeArray[i]);
         }
         codelookup = codeArray;
         return codeArray;
