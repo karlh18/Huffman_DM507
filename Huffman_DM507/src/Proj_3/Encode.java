@@ -19,7 +19,9 @@ import java.util.logging.Logger;
  * @author Pradeep Thayaparan - prtha18@student.sdu.dk
  * @author Lavan Sathiyaseelan - lasat17@student.sdu.dk
  */
-public class Encode {
+public class Encode {  
+    
+    
     
     
     public static void main(String[] args) throws IOException {
@@ -29,7 +31,8 @@ public class Encode {
 //        System.out.println(alphabet[3]);
         
     }
-
+    
+    String[] codelookup;
     PQ z = new PQHeap();
     int counter = 0;
     int[] alphabet = new int[256]; // Could also just return it via countFrequencyOfBytes 
@@ -114,7 +117,7 @@ public class Encode {
     // Over the codes for each of the possible bytes 
     // Remember - The bytes are of the type int between 0 and 255 
     // and can be used as indexes in the arrays
-    public void saveCode(DictBinTree tree) {
+    public String[] saveCode(DictBinTree tree) {
         ArrayList<String> code = tree.in_order_walk_with_path();
         String[] codeArray = new String[256];
         // make toArray later
@@ -122,7 +125,8 @@ public class Encode {
         for (int i = 0; i < code.size() - 1; i++) {
             codeArray[i] = code.get(i);
         }
-
+        codelookup = codeArray; 
+        return codeArray;
     }
 
     //task 4)  Write alphabeth into outputfile
@@ -136,7 +140,33 @@ public class Encode {
 
     }
     
-    //task 5) 
-    
+    //task 5)   
+    public void WriteInput(String inputFile, String outputFile) throws IOException {
+
+        // Vi skal læse fra inputfil et byte ad gangen for hvert byte skal vi kigge i Code tabellen og skrive de bytes i outputfil   
+        int tempByte;
+        // Opens File to read from 
+        try ( FileInputStream input = new FileInputStream(inputFile);  FileOutputStream output = new FileOutputStream(outputFile);  BitOutputStream bitput = new BitOutputStream(output);) {
+            // "For at læse bytes fra en fil, skal man bruge read-metoden fra FileInputStream" 
+            // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitINputstream 
+            while ((tempByte = input.read()) != 0) {
+                // int temp = (int) flin.read(); 
+                System.out.println(tempByte);
+                
+                String currentCode = codelookup[tempByte];                
+                char[] s = currentCode.toCharArray();
+                for (int i = 0; i < currentCode.length() - 1; i++) {
+                    bitput.writeBit(currentCode.charAt(i));                    
+                    
+                }
+           
+                
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Encode.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
 
 }
