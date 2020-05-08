@@ -14,23 +14,43 @@ import java.util.ArrayList;
  */
 public class DictBinTree implements Dict {   
     // Reference to the root of the DictBinTree object
-    BinNode root;
+    public BinNode root;
     
      // Constructor that returns a new empty Dictionary¨     
     DictBinTree() {
         root = null;
     }
     
+    public static void main(String[] args) {
+        DictBinTree dog = new DictBinTree();
+        for (int i = 10; i > 0; i--) {
+            dog.insert(i);
+            
+        }
+        
+        dog.in_order_walk_with_path();
+    }
     
     /**
-     * Search(int k) uses the private method search(BinNode, int)
-     * 
-     * @param k -  The key to be found  
-     * @return true/false if k is found 
+     * Output is the path to all the nodes in the tree
      */
-    @Override
-    public boolean search(int k) {
-        return search(root,k);
+    // path = code
+    
+    String[] codeAlphabet = new String[256];
+    
+    private ArrayList<String> in_order_walk_helper(String path, BinNode node, ArrayList<String> code) {
+        
+        if (node != null) {
+            in_order_walk_helper(path + "O", node.binNodeLeft, code); //left subtree
+            System.out.println("Key " + node.key + ": " + path); // Print the key and the path
+            code.add(path);
+            in_order_walk_helper(path + "I", node.binNodeRight, code); // Right subtree
+        }
+        return code;
+    }
+    
+    public ArrayList<String> in_order_walk_with_path(){
+        return in_order_walk_helper("", root, new ArrayList<String>()); // call the helper with an empty path and the root node
     }
     
     
@@ -72,6 +92,23 @@ public class DictBinTree implements Dict {
         // Returns the Arraylist sorted
         return nodes;
     }
+    
+    
+    
+    
+    
+    
+    /**
+     * Search(int k) uses the private method search(BinNode, int)
+     * 
+     * @param k -  The key to be found  
+     * @return true/false if k is found 
+     */
+    @Override
+    public boolean search(int k) {
+        return search(root,k);
+    }
+    
        
     
     /**
