@@ -6,6 +6,10 @@ package Proj_3;
     // Questions: Should I use all those 0 as entries in the left side of the graph ? the tree/graph goes millions time to the left ?
     // Questions: Should the new Node "z" at line 94 have anything in it's constructor? -- Set it as 0 or what?
     // TODO: Delete the unneeded comments & clear up on the others less illustrative ones
+    // Tests Done
+        // Works : Checked if I return the last Node in the Heap()
+// Method 3a:  
+
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -99,7 +103,7 @@ public class Encode {
             // Adds the new node/tree to the priority queue
             priorityQueue.insert(new Element(sum, z));
         }
-
+        
         return (BinNode) priorityQueue.extractMin().getData();
     }
 
@@ -117,11 +121,11 @@ public class Encode {
 //        System.out.println(encode.alphabet[107]);
 
         // #Test2 - huffmanAlgorithm()
-        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  
-       
-//       DictBinTree dictBinTree = new DictBinTree();
-       
-      // dictBinTree.root = binNode;
+        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
+        // Uses the created graph  & adds it to the tree
+        DictBinTree dictBinTree = new DictBinTree();
+        dictBinTree.root = binNode;
+        
        
 //       dictBinTree.in_order_walk_with_path();
        
