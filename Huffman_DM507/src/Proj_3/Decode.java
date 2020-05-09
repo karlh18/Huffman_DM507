@@ -24,12 +24,14 @@ public class Decode {
     public static void main(String[] args) throws IOException {
         Decode decode = new Decode();
 
-        String inputFile = "hej_zippy.txt";
-        String outputFile = "hejsa.txt";
+//        String inputFile = "hej_zippy.txt";
+//        String outputFile = "hejsa.txt";
         
         
-        FileInputStream finput = new FileInputStream(inputFile);  
-        FileOutputStream foutput = new FileOutputStream(outputFile);
+//        FileInputStream finput = new FileInputStream(inputFile);  
+//        FileOutputStream foutput = new FileOutputStream(outputFile);
+        FileInputStream finput = new FileInputStream(args[0]);  
+        FileOutputStream foutput = new FileOutputStream(args[1]);
         BitInputStream binput = new BitInputStream(finput); 
         BitOutputStream boutput = new BitOutputStream(foutput);
 
@@ -45,7 +47,7 @@ public class Decode {
          
         dictBinTree.root = huffmantree;
         
-         
+         //write
          decode.treewalk(huffmantree, binput, foutput);       
     }
     

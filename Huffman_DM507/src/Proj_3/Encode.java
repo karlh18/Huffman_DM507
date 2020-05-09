@@ -150,10 +150,10 @@ public class Encode {
         // #Test1 - CountFrequency()
 
 //        System.out.println("");
-        String inputFile = "hej.txt";
-        String outputFile = "hej_zippy.txt";
+//        String inputFile = "hej.txt";
+//        String outputFile = "hej_zippy.txt";
         Encode encode = new Encode();
-        encode.countFrequencyOfBytes(inputFile);
+        encode.countFrequencyOfBytes(args[0]);
 //        System.out.println(encode.alphabet[104]);
 //        System.out.println(encode.alphabet[107]);
 
@@ -180,7 +180,7 @@ public class Encode {
         // Check to see how many bytes are written 
       //  encode.writeIntsToOutput(encode.alphabet, inputFile);
         
-        encode.writeToOutPut(encode.alphabet,inputFile,outputFile);
+        encode.writeToOutPut(encode.alphabet,args[0],args[1]);
 
         //Test 5: 
         // encode.writeCodeWordsToOutput(inputFile, outputFile);
