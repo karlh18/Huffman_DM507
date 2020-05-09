@@ -193,8 +193,10 @@ public class Decode {
         
         
         
+        for(int i = 0; i<32; i++){
+            readBit = inputStream.readBit();
+        }
         
-
         while (counter < numBytes ) {
             if (rootNode.binNodeLeft == null && rootNode.binNodeRight == null) {
                 System.out.println("BitPrefix: " + bitprefix);
