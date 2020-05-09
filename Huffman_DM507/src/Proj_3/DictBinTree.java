@@ -52,6 +52,8 @@ public class DictBinTree implements Dict {
             in_order_walk_helper(path + "1", node.binNodeRight, code); // Right subtree
         }
 //        System.out.println("total: " + code.length); // Used for test
+
+//        System.out.println(code[104]);
         return code;
     }
     

@@ -12,10 +12,10 @@ package Proj_3;
 // Method 3a:  dictBinTree.in_order_walk_with_path()
     // Questions: Does it make any difference what I set as the key ?  Isn't it irrelevant ?
     // TODO: Clean this method up  - I have ArrayList implementation still int and other weird things. 
-// Method 3b:  saveCode
+// Method 3b:  createCodeLookupTable
     // TODO: Clean up the code ; there is many double work in it 
     // TODO: Doesn't seem to be any reason to return anything in many of the methods since it sets thing on the encode class 
-// Method 4: createCodeLookupTable()
+// Method 4: writeIntsToOutput()
     // Not sure if works, but it adds integers into it atleast 
     // via encoding bit -- if anything this is the method that needs the most
     // TODO:  Check the frequency ones and then check what their code is - because they should be the smallest ones 
@@ -40,7 +40,7 @@ public class Encode {
 
     
     // Stores each byte as an int
-    int[] alphabet = new int[256];
+    int[] alphabet = new int[256]; //0-255 
 
     // Used to store the prefix code for each byte
     String[] codeLookupTable;
@@ -92,7 +92,7 @@ public class Encode {
         }
     
         // ########CAN BE DELETE VERY SOOOON###############################
-        //int counter = 0; // used for test
+//        int counter = 0; // used for test
         // for i = 1 to n-1 
         // Not entirely sure how it translates from pseudo to our yet. So I will just minus it as usual 
         // I just guess we start @Index 0  and then move to second last index which is length -2 in java ArrayList
@@ -108,7 +108,7 @@ public class Encode {
 
             int sum = x.getKey() + y.getKey(); // sum used as key for a newly created Node, which will be set as parent of the two extracted nodes. 
 
-            // System.out.println("counter: " + counter++ + " sum : " + sum); // Used for test ##############Can be deleted soon
+//             System.out.println("counter: " + counter++ + " sum : " + sum); // Used for test ##############Can be deleted soon
          
             // Creates new node/tree & adds the two extracted nodes
             BinNode z = new BinNode(sum);   // Not sure if this should have anything  or if it should have 0 ???  Or does it not matter?
@@ -128,7 +128,7 @@ public class Encode {
     // and can be used as indexes in the arrays
     public String[] createCodeLookupTable(DictBinTree tree) {
         String[] code = tree.in_order_walk_with_path();
-              codeLookupTable = code;
+        codeLookupTable = code; // Dobbeltarbejde
         return code;
 //        System.out.println("Length of ArrayList: " + code.length);
         
@@ -157,21 +157,29 @@ public class Encode {
 //        System.out.println("");
        
        
-        String inputFile = "hej.txt";
+        String inputFile = "hej.txt";   
         String outputFile = "hej_zippy.txt";
         Encode encode = new Encode();
-        encode.countFrequencyOfBytes(outputFile);  
+        encode.countFrequencyOfBytes(inputFile);  
 //        System.out.println(encode.alphabet[104]);
 //        System.out.println(encode.alphabet[107]);
 
         // #Test2 - huffmanAlgorithm()
-//        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
+        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
         // Uses the created graph  & adds it to the tree
-//        encode.huffManTree = new DictBinTree();
-//        encode.huffManTree.root = binNode;
+        encode.huffManTree = new DictBinTree();
+        encode.huffManTree.root = binNode;
         
         //Test 3a:
-//        encode.huffManTree.in_order_walk_with_path();
+//        String[] dog = encode.huffManTree.in_order_walk_with_path();
+        String[] dog = encode.createCodeLookupTable(encode.huffManTree);
+//        System.out.println("104: " + dog[104]); 
+//        System.out.println("101: " + dog[101]); 
+//        System.out.println("106: " + dog[106]); 
+//        System.out.println("13: " + dog[13]); 
+//        System.out.println("10: " + dog[10]); 
+//        System.out.println("200: " + dog[200]); 
+        
         
         // Test 3b:
 //        encode.createCodeLookupTable(encode.huffManTree);
@@ -181,7 +189,7 @@ public class Encode {
         // Test 4:
             // Tests that need to be conducted:
             // Check to see how many bytes are written 
-//        encode.writeIntsToOutput(encode.alphabet, outputFile);
+        encode.writeIntsToOutput(encode.alphabet, outputFile);
         
         
         //Test 5: 
@@ -212,10 +220,10 @@ public class Encode {
     public void writeIntsToOutput(int[] alphabeth, String outFile) throws IOException {
         try (FileOutputStream output = new FileOutputStream(outFile);
                 BitOutputStream out = new BitOutputStream(output);) {
-            
-            out.writeInt(10);
+//            int counter = 0;
             for (int i : alphabeth) {
                 out.writeInt(i);
+//                System.out.println("Counter: " + counter++);
             }
         }
     }
