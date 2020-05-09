@@ -31,13 +31,10 @@ public class Decode {
         FileInputStream finput = new FileInputStream(inputFile);  
         FileOutputStream foutput = new FileOutputStream(outputFile);
         BitInputStream binput = new BitInputStream(finput); 
-        BitOutputStream boutput = new BitOutputStream(foutput); 
-        
-        
-        
-        decode.occurenceTable = decode.readoccurenceTable(inputFile,finput,binput); 
-        
-        
+        BitOutputStream boutput = new BitOutputStream(foutput);
+
+        decode.occurenceTable = decode.readoccurenceTable(binput);
+
         System.out.println("104 "+decode.occurenceTable[104]);
         System.out.println("101 "+decode.occurenceTable[101]);
         System.out.println("106 "+decode.occurenceTable[106]);
@@ -48,19 +45,18 @@ public class Decode {
          
         dictBinTree.root = huffmantree;
         
-        while(finput.available() != 0){
-         decode.treewalk(huffmantree, binput, foutput);
-        }
-       
+         
+         decode.treewalk(huffmantree, binput, foutput);       
     }
+    
 
  
     
   
 
     // task 1  read  the Occurence table from the inputfile for the 256 bytes. It works
-    public int[] readoccurenceTable(String inputFile, FileInputStream input, BitInputStream  bitInput ) throws IOException {
-
+    public int[] readoccurenceTable(BitInputStream  bitInput) throws IOException {
+        
         int temp;
         // Opens File to read from 
         try  {
@@ -186,29 +182,39 @@ public class Decode {
            return freqTable;  
     }
 
-     public int treewalk(BinNode rootnode, BitInputStream inputStream, FileOutputStream fileoutput) throws IOException {
+     public void treewalk(BinNode rootNode, BitInputStream inputStream, FileOutputStream fileoutput) throws IOException {
 
-        int count;
-        BinNode resetBinNode = rootnode;  
+        int counter = 0;
+        int numBytes =calcBytes(occurenceTable);
+      
+        BinNode resetBinNode = rootNode;  
         String bitprefix = "";
+        int readBit;
+        
+        
+        
+        
 
-        while (true) {
-            if (rootnode.binNodeLeft == null && rootnode.binNodeRight == null) {
+        while (counter < numBytes ) {
+            if (rootNode.binNodeLeft == null && rootNode.binNodeRight == null) {
                 System.out.println("BitPrefix"+bitprefix);
-                fileoutput.write(rootnode.key); 
-                System.out.println(rootnode.key);
-                return rootnode.key; 
+                fileoutput.write(rootNode.key); 
+                System.out.println(rootNode.key);
+                
+                // reset
+                bitprefix ="";
+                rootNode = resetBinNode;
                 
             }
 
-            int readBit = inputStream.readBit();
+            readBit = inputStream.readBit();
 
             if (readBit == 0) {
 
-                rootnode = rootnode.binNodeLeft;
+                rootNode = rootNode.binNodeLeft;
                 bitprefix += readBit;
             } else if (readBit == 1) {
-                rootnode = rootnode.binNodeRight;
+                rootNode = rootNode.binNodeRight;
                 bitprefix += readBit;
 
             }  
@@ -216,21 +222,6 @@ public class Decode {
             
 
         }
-
-    
-    
-    } 
-    
-    
-    
-    
-    public void convertto32Bits(){
-    
-    // 
-    
-        
-        
-    }
-    
-    
+     }
 }
+ 
