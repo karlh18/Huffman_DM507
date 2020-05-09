@@ -216,7 +216,7 @@ public class Encode {
 
 
     // Create Test:  Check if there has been written 256 bytes * 4 
-                                                    // 256*4 =  1024 bytes 
+                                                    // 256*4 =  1024 bytes      // FileInputStream to check each byte  --- since the BitInputStream takes in 32 bytes
     
     
     //task 4)  Write alphabet into outputfile
