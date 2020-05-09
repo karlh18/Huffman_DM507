@@ -19,26 +19,43 @@ import java.util.logging.Logger;
  * @author pradeepthayaparan
  */
 public class Decode {
+    
+  int[] occurenceTable = new int[256];
+    public static void main(String[] args) throws IOException {
+        Decode decode = new Decode();
 
-    public static void main(String[] args) {
+        String inputFile = "hej.txt";
+        String outputFile = "hej_zippy.txt";
+        decode.occurenceTable = decode.readoccurenceTable(outputFile);
+        System.out.println("104 "+decode.occurenceTable[104]);
+        System.out.println("101 "+decode.occurenceTable[101]);
+        System.out.println("107 "+decode.occurenceTable[107]);
 
+        BinNode huffmantree = decode.huffmanAlgorithm(decode.occurenceTable); 
         
+        DictBinTree dictBinTree = new DictBinTree(); 
+         
+        dictBinTree.root = huffmantree;
     }
 
-    int[] occurenceTable = new int[256];
+ 
+    
+  
 
-    // task 1  read  the Occurence table from the inputfile for the 256 bytes.
+    // task 1  read  the Occurence table from the inputfile for the 256 bytes. It works
     public int[] readoccurenceTable(String inputFile) throws IOException {
 
         int temp;
         // Opens File to read from 
-        try ( FileInputStream input = new FileInputStream(inputFile);  BitInputStream bitInput = new BitInputStream(input);) {
+        try ( FileInputStream input = new FileInputStream(inputFile); 
+              BitInputStream bitInput = new BitInputStream(input);) {
             // "For at læse bytes fra en fil, skal man bruge read-metoden fra FileInputStream" 
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitINputstream 
 
             for (int i = 0; i < occurenceTable.length - 1; i++) {
 
-                occurenceTable[i] = bitInput.readInt();
+                occurenceTable[i] = bitInput.readInt(); 
+          //       System.out.println(occurenceTable[i]);
 
             }
             // int temp = (int) flin.read();   
@@ -48,10 +65,10 @@ public class Decode {
         }
 
         return occurenceTable;
-    }
-
-    // Task 2: regenerate a huffman tree. 
-    public void regeneratehuffmantree(int[] alphabet) {
+    }  
+    
+    // Task 2: regenerate a huffman tree.  
+  public BinNode huffmanAlgorithm(int[] alphabet) {
 
         int n = alphabet.length;
 
@@ -59,48 +76,44 @@ public class Decode {
         PQ priorityQueue = new PQHeap();
 
         // Q = C 
-        // Initialize the Priority Queue with the Characters 
+        // Initialize the Priority Queue with 256 items aka the Characters to the queue 
         for (int i = 0; i < n - 1; i++) {
 
-            DictBinTree tree = new DictBinTree();
+            // Each node represents a character 
+            BinNode node = new BinNode(i);
 
-            // Add element into tree? 
-            tree.insert(i); // Not sure if correct          // Should this be changed ? 
-
-            // Add a tree
-            Element e = new Element(alphabet[i], tree);
-
+            // Add an Element to the queue:  Frequency as Key in Element & the Tree/Node as data 
+            Element e = new Element(alphabet[i], node);
             priorityQueue.insert(e);
 
         }
 
+        // ########CAN BE DELETE VERY SOOOON###############################
+//        int counter = 0; // used for test
         // for i = 1 to n-1 
         // Not entirely sure how it translates from pseudo to our yet. So I will just minus it as usual 
         // I just guess we start @Index 0  and then move to second last index which is length -2 in java ArrayList
+        // ################################################################
+        // For loop: Takes everything out of the Priority Queue except for the last one
         for (int i = 0; i < n - 2; i++) {
 
-            // Doesn't this provide us with a tree instead of a node?
-            // Should be tree or node? hmmm
-            // Extract the elements with the lowest key in the heap
-            // and get their sum
+            // Extract the 2 elements with the lowest frequency(key) in the heap
             Element x = priorityQueue.extractMin();
             Element y = priorityQueue.extractMin();
-            int sum = x.getKey() + y.getKey();
 
-            // Used later to get the nodes left 
-            DictBinTree xx = (DictBinTree) x.getData();
-            DictBinTree yy = (DictBinTree) y.getData();
+            int sum = x.getKey() + y.getKey(); // sum used as key for a newly created Node, which will be set as parent of the two extracted nodes. 
 
-            // Creates new tree & adds the two previous as children
-            DictBinTree z = new DictBinTree();
-            z.root.binNodeLeft = xx.root;
-            z.root.binNodeRight = yy.root;
+//             System.out.println("counter: " + counter++ + " sum : " + sum); // Used for test ##############Can be deleted soon
+            // Creates new node/tree & adds the two extracted nodes
+            BinNode z = new BinNode(sum);   // Not sure if this should have anything  or if it should have 0 ???  Or does it not matter?
+            z.binNodeLeft = (BinNode) x.getData();
+            z.binNodeRight = (BinNode) y.getData();
 
-            // Adds the new tree to the priority queue
+            // Adds the new node/tree to the priority queue
             priorityQueue.insert(new Element(sum, z));
         }
 
-        // return (DictBinTree) priorityQueue.extractMin().getData();
+        return (BinNode) priorityQueue.extractMin().getData();
     }
 
     public int calcBytes(int[] bytes) {
@@ -158,8 +171,38 @@ public class Decode {
            return freqTable;  
     }
 
+     public int treewalk(BinNode rootnode, BitInputStream inputStream) throws IOException {
+
+        int count;
+        BinNode resetBinNode = rootnode;
+        String bitprefix = "";
+
+        while (true) {
+            if (rootnode.binNodeLeft == null && rootnode.binNodeRight == null) {
+                return rootnode.key;
+            }
+
+            int readBit = inputStream.readBit();
+
+            if (readBit == 0) {
+
+                rootnode = rootnode.binNodeLeft;
+                bitprefix += readBit;
+            } else if (readBit == 1) {
+                rootnode = rootnode.binNodeRight;
+                bitprefix += readBit;
+
+            }
+
+        }
+
     
-     
+    
+    } 
+    
+    
+    
+    
     public void convertto32Bits(){
     
     // 
