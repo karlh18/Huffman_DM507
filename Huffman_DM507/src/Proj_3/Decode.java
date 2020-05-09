@@ -63,7 +63,7 @@ public class Decode {
             // "For at læse bytes fra en fil, skal man bruge read-metoden fra FileInputStream" 
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitINputstream 
 
-            for (int i = 0; i < occurenceTable.length - 1; i++) {
+            for (int i = 0; i < occurenceTable.length ; i++) {
 
                 occurenceTable[i] = bitInput.readInt(); 
           //       System.out.println(occurenceTable[i]);
@@ -193,9 +193,9 @@ public class Decode {
         
         
         
-        for(int i = 0; i<32; i++){
-            readBit = inputStream.readBit();
-        }
+//        for(int i = 0; i<32; i++){
+//            readBit = inputStream.readBit();
+//        }
         
         while (counter < numBytes ) {
             if (rootNode.binNodeLeft == null && rootNode.binNodeRight == null) {
@@ -210,9 +210,9 @@ public class Decode {
             }
 
             readBit = inputStream.readBit();
-            if (readBit == -1){
-                break;
-            }
+//            if (readBit == -1){
+//                break;
+//            }
             System.out.println("readbit: " + readBit);
             if (readBit == 0) {
 

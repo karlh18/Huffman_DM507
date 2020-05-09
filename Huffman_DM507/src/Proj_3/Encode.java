@@ -83,7 +83,9 @@ public class Encode {
 
         // Q = C 
         // Initialize the Priority Queue with 256 items aka the Characters to the queue 
-        for (int i = 0; i < n - 1; i++) {
+ 
+        
+        for (int i = 0; i < n; i++) {
 
             // Each node represents a character 
             BinNode node = new BinNode(i);
@@ -101,7 +103,7 @@ public class Encode {
         // I just guess we start @Index 0  and then move to second last index which is length -2 in java ArrayList
         // ################################################################
         // For loop: Takes everything out of the Priority Queue except for the last one
-        for (int i = 0; i < n - 2; i++) {
+        for (int i = 0; i < n - 1; i++) {
 
             // Extract the 2 elements with the lowest frequency(key) in the heap
             Element x = priorityQueue.extractMin();
@@ -165,7 +167,17 @@ public class Encode {
 
         //Test 3a:
 //        String[] dog = encode.huffManTree.in_order_walk_with_path();
-        String[] dog = encode.createCodeLookupTable(encode.huffManTree);
+
+
+
+
+        // String[255] is empty !!! Missing one assignment 
+        String[] lookupTable = encode.createCodeLookupTable(encode.huffManTree);
+
+
+
+
+
 //        System.out.println("104: " + dog[104]); 
 //        System.out.println("101: " + dog[101]); 
 //        System.out.println("106: " + dog[106]); 
