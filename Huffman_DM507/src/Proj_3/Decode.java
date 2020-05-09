@@ -19,58 +19,51 @@ import java.util.logging.Logger;
  * @author pradeepthayaparan
  */
 public class Decode {
-    
-  int[] occurenceTable = new int[256];
+
+    int[] occurenceTable = new int[256];
+
     public static void main(String[] args) throws IOException {
         Decode decode = new Decode();
 
         String inputFile = "hej_zippy.txt";
         String outputFile = "hejsa.txt";
-        
-        
-        FileInputStream finput = new FileInputStream(inputFile);  
-        FileOutputStream foutput = new FileOutputStream(outputFile);
-        BitInputStream binput = new BitInputStream(finput); 
-        BitOutputStream boutput = new BitOutputStream(foutput); 
-        
-        
-        
-        decode.occurenceTable = decode.readoccurenceTable(inputFile,finput,binput); 
-        
-        
-        System.out.println("104 "+decode.occurenceTable[104]);
-        System.out.println("101 "+decode.occurenceTable[101]);
-        System.out.println("106 "+decode.occurenceTable[106]);
 
-        BinNode huffmantree = decode.huffmanAlgorithm(decode.occurenceTable); 
-        
-        DictBinTree dictBinTree = new DictBinTree();   
-         
+        FileInputStream finput = new FileInputStream(inputFile);
+        FileOutputStream foutput = new FileOutputStream(outputFile);
+        BitInputStream binput = new BitInputStream(finput);
+        BitOutputStream boutput = new BitOutputStream(foutput);
+
+        decode.occurenceTable = decode.readoccurenceTable(inputFile, finput, binput);
+
+        System.out.println("104 " + decode.occurenceTable[104]);
+        System.out.println("101 " + decode.occurenceTable[101]);
+        System.out.println("106 " + decode.occurenceTable[106]);
+
+        BinNode huffmantree = decode.huffmanAlgorithm(decode.occurenceTable);
+
+        DictBinTree dictBinTree = new DictBinTree();
+
         dictBinTree.root = huffmantree;
-        
-        while(finput.available() != 0){
-         decode.treewalk(huffmantree, binput, foutput);
+
+        while (finput.available() != 0) {
+            decode.treewalk(huffmantree, binput, foutput);
         }
-       
+
     }
 
- 
-    
-  
-
     // task 1  read  the Occurence table from the inputfile for the 256 bytes. It works
-    public int[] readoccurenceTable(String inputFile, FileInputStream input, BitInputStream  bitInput ) throws IOException {
+    public int[] readoccurenceTable(String inputFile, FileInputStream input, BitInputStream bitInput) throws IOException {
 
         int temp;
         // Opens File to read from 
-        try  {
+        try {
             // "For at læse bytes fra en fil, skal man bruge read-metoden fra FileInputStream" 
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitINputstream 
 
             for (int i = 0; i < occurenceTable.length - 1; i++) {
 
-                occurenceTable[i] = bitInput.readInt(); 
-          //       System.out.println(occurenceTable[i]);
+                occurenceTable[i] = bitInput.readInt();
+                //       System.out.println(occurenceTable[i]);
 
             }
             // int temp = (int) flin.read();   
@@ -80,10 +73,10 @@ public class Decode {
         }
 
         return occurenceTable;
-    }  
-    
+    }
+
     // Task 2: regenerate a huffman tree.  
-  public BinNode huffmanAlgorithm(int[] alphabet) {
+    public BinNode huffmanAlgorithm(int[] alphabet) {
 
         int n = alphabet.length;
 
@@ -143,94 +136,76 @@ public class Decode {
         return sum;
     }
 
-    public int[] decodingBits(int[] freqTable, String inputFile, String outputFile ) {
+    public int[] decodingBits(int[] freqTable, String inputFile, String outputFile) {
 
-         int bitsofar =0;
-         int totalbits = calcBytes(freqTable);   
-         List<Integer> list = new ArrayList<>();
-              
-         String s =""; 
-        try(FileInputStream input = new FileInputStream(inputFile); 
-            BitInputStream bitInput = new BitInputStream(input);   
-            FileOutputStream output = new FileOutputStream(outputFile);
-            BitOutputStream bitput = new BitOutputStream(output);) {
-            
-            
-            while(bitsofar < totalbits){
-            
-             s += bitInput.readBit();    
-                
-          
-             for(int i = 0; i< freqTable.length-1; i++){
-             
-                if(s.equals(freqTable[i])){
-                   list.add(i);
-               //    bitput.writeBit(i); 
-                   s = "";
+        int bitsofar = 0;
+        int totalbits = calcBytes(freqTable);
+        List<Integer> list = new ArrayList<>();
+
+        String s = "";
+        try ( FileInputStream input = new FileInputStream(inputFile);  BitInputStream bitInput = new BitInputStream(input);  FileOutputStream output = new FileOutputStream(outputFile);  BitOutputStream bitput = new BitOutputStream(output);) {
+
+            while (bitsofar < totalbits) {
+
+                s += bitInput.readBit();
+
+                for (int i = 0; i < freqTable.length - 1; i++) {
+
+                    if (s.equals(freqTable[i])) {
+                        list.add(i);
+                        //    bitput.writeBit(i); 
+                        s = "";
+                    }
                 }
-             }
-             
-              
-            
+
             }
 //          for( int i = 0; i < bytes.length-1 ; i++){
 //          bytes[i] = bitInput.readBit();  
 //          }  
 //         
-            
-            
+
         } catch (Exception e) {
         }
-        
 
-           return freqTable;  
+        return freqTable;
     }
 
-     public int treewalk(BinNode rootnode, BitInputStream inputStream, FileOutputStream fileoutput) throws IOException {
+    public void treewalk(BinNode rootnode, BitInputStream inputStream, FileOutputStream fileoutput) throws IOException {
 
-        int count;
-        BinNode resetBinNode = rootnode;  
+        int count = 0;
+        BinNode resetBinNode = rootnode;
         String bitprefix = "";
 
         while (true) {
-            if (rootnode.binNodeLeft == null && rootnode.binNodeRight == null) {
-                System.out.println("BitPrefix"+bitprefix);
-                fileoutput.write(rootnode.key); 
-                System.out.println(rootnode.key);
-                return rootnode.key; 
-                
+            if (resetBinNode.binNodeLeft == null && resetBinNode.binNodeRight == null) {
+                System.out.println("BitPrefix " + bitprefix);
+                System.out.println(resetBinNode.key);
+                fileoutput.write(resetBinNode.key);
+                count++;
+                resetBinNode = rootnode;
+
             }
 
             int readBit = inputStream.readBit();
 
             if (readBit == 0) {
-
-                rootnode = rootnode.binNodeLeft;
+                resetBinNode = resetBinNode.binNodeLeft;
+                
                 bitprefix += readBit;
+
             } else if (readBit == 1) {
-                rootnode = rootnode.binNodeRight;
+                resetBinNode = resetBinNode.binNodeRight;
                 bitprefix += readBit;
 
-            }  
-            
-            
+            }
 
         }
-
-    
-    
-    } 
-    
-    
-    
-    
-    public void convertto32Bits(){
-    
-    // 
-    
-        
-        
+       
     }
-    
-    
+
+    public void convertto32Bits() {
+
+        // 
+    }
+
 }
