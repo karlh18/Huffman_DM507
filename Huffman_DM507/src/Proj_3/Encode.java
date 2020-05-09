@@ -215,7 +215,10 @@ public class Encode {
     
 
 
-
+    // Create Test:  Check if there has been written 256 bytes * 4 
+                                                    // 256*4 =  1024 bytes 
+    
+    
     //task 4)  Write alphabet into outputfile
     public void writeIntsToOutput(int[] alphabeth, String outFile) throws IOException {
         try (FileOutputStream output = new FileOutputStream(outFile);
@@ -232,7 +235,9 @@ public class Encode {
     
     
     
-    
+    // Figure out how to write correct bits each time
+    // Figure out if should use Stream as parameter so it doesn't overrride the other method
+    // Test file if it works as intended 
     
     //task 5)   Read the inputfile again 
                     // For each byte look at that int write those bits into the output file 
@@ -248,7 +253,7 @@ public class Encode {
             while ((tempByte = input.read()) != -1) {
                 // int temp = (int) flin.read(); 
                 System.out.println(tempByte);
-                String currentCode = codeLookupTable[tempByte];
+                String currentCode = codeLookupTable[tempByte]; // "101" 
                 System.out.println(currentCode);
                 int j;
                 for (int i = 0; i < currentCode.length() - 1; i++) {
