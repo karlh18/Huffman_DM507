@@ -7,8 +7,8 @@ package Proj_3;
 
 /**
  *
- * @author Karla
- */
+ * @author Karla 
+*/
 public class Node {
         //Left Child
     Element binNodeLeft;

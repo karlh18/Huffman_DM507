@@ -38,22 +38,25 @@ public class DictBinTree implements Dict {
     
     String[] codeAlphabet = new String[256];
     
-    private ArrayList<String> in_order_walk_helper(String path, BinNode node, ArrayList<String> code) {
+    private String[]  in_order_walk_helper(String path, BinNode node, String[] code) {
 //        ArrayList<String> codes = new ArrayList<String>;
         if (node != null) {
             in_order_walk_helper(path + "O", node.binNodeLeft, code); //left subtree
-            System.out.println("Key " + node.key + ": " + path); // Print the key and the path -- Think it makes no difference what the key is  ; hmm
+            System.out.println("Key " + node.key + ": " + path); // Print the key and the path -- Think it makes no difference what the key is  ; hmm // used for test 
+            
+            // Makes sure it only reads only leaves, and therefore doesn't add duplicates. 
             if(node.binNodeLeft == null && node.binNodeRight ==null){
-            code.add(path);
+                code[node.key] = path;
+           
             }
             in_order_walk_helper(path + "I", node.binNodeRight, code); // Right subtree
         }
-        System.out.println("total: " + code.size());
+//        System.out.println("total: " + code.length); // Used for test
         return code;
     }
     
-    public ArrayList<String> in_order_walk_with_path(){
-        return in_order_walk_helper("", root, new ArrayList<String>()); // call the helper with an empty path and the root node
+    public String[] in_order_walk_with_path(){
+        return in_order_walk_helper("", root, new String[256]); // call the helper with an // empty path and the root node
     }
     
     

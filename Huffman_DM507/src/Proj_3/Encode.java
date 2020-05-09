@@ -49,7 +49,7 @@ public class Encode {
             // Use the read method from FileInputStream  to read a byte (8bits) from a file
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitInputstream 
             while ((temp = input.read()) != -1) {
-//                System.out.println(temp); // used to test if it reads correct
+                System.out.println(temp); // used to test if it reads correct
                 alphabet[temp]++;
             }
         } catch (FileNotFoundException ex) {
@@ -136,7 +136,7 @@ public class Encode {
         encode.huffManTree.in_order_walk_with_path();
         
         // Test 3b:
-//        encode.createCodeLookupTable(encode.huffManTree);
+        encode.createCodeLookupTable(encode.huffManTree);
 
         
         
@@ -165,16 +165,16 @@ public class Encode {
     // Remember - The bytes are of the type int between 0 and 255 
     // and can be used as indexes in the arrays
     public String[] createCodeLookupTable(DictBinTree tree) {
-        ArrayList<String> code = tree.in_order_walk_with_path();
-        System.out.println("Length of ArrayList: " + code.size());
+        String[] code = tree.in_order_walk_with_path();
+        System.out.println("Length of ArrayList: " + code.length);
         
         String[] codeArray = new String[256];
         // make toArray later
 
-        for (int i = 0; i < code.size() - 1; i++) {
-            codeArray[i] = code.get(i);  
-            System.out.println(codeArray[i]);
-        }
+//        for (int i = 0; i < code.length - 1; i++) {
+//            codeArray[i] = code.get(i);  
+//            System.out.println(codeArray[i]);
+//        }
         codeLookupTable = codeArray;
         return codeArray;
     }
