@@ -14,8 +14,10 @@ package Proj_3;
     // TODO: Clean this method up  - I have ArrayList implementation still int and other weird things. 
 // Method 3b:  saveCode
     // TODO: Clean up the code ; there is many double work in it 
-    // TODO
-
+    // TODO: Doesn't seem to be any reason to return anything in many of the methods since it sets thing on the encode class 
+// Method 4: createCodeLookupTable()
+    // Not sure if works, but it adds integers into it atleast 
+    // via encoding bit -- if anything this is the method that needs the most 
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -52,7 +54,7 @@ public class Encode {
             // Use the read method from FileInputStream  to read a byte (8bits) from a file
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitInputstream 
             while ((temp = input.read()) != -1) {
-                System.out.println(temp); // used to test if it reads correct
+//                System.out.println(temp); // used to test if it reads correct
                 alphabet[temp]++;
             }
         } catch (FileNotFoundException ex) {
@@ -116,60 +118,15 @@ public class Encode {
         return (BinNode) priorityQueue.extractMin().getData();
     }
 
-    
-    
-    
-    
-    // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
-    public static void main(String[] args) throws IOException { 
-       // #Test1 - CountFrequency()
-        String s = "hej.txt";
-        Encode encode = new Encode();
-        encode.countFrequencyOfBytes(s);  
-//        System.out.println(encode.alphabet[104]);
-//        System.out.println(encode.alphabet[107]);
-
-        // #Test2 - huffmanAlgorithm()
-        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
-        // Uses the created graph  & adds it to the tree
-        encode.huffManTree = new DictBinTree();
-        encode.huffManTree.root = binNode;
-        
-        //Test 3a:
-        encode.huffManTree.in_order_walk_with_path();
-        
-        // Test 3b:
-        encode.createCodeLookupTable(encode.huffManTree);
-
-        
-        
-        
-        
-     // TEST OF SAVECODE  
-     
-      // encode.saveCode(dictBinTree);
-        
-        
-
-//        System.out.println(alphabet[3]);
-    }
-
-    
-    
-    
-    
-    
-    
-    
-
-    
     //Task 3 )  Convert the Huffman Tree to a Table(An Array with 256 entries)
     // Over the codes for each of the possible bytes 
     // Remember - The bytes are of the type int between 0 and 255 
     // and can be used as indexes in the arrays
     public String[] createCodeLookupTable(DictBinTree tree) {
         String[] code = tree.in_order_walk_with_path();
-        System.out.println("Length of ArrayList: " + code.length);
+              codeLookupTable = code;
+        return code;
+//        System.out.println("Length of ArrayList: " + code.length);
         
 
 
@@ -186,20 +143,70 @@ public class Encode {
 //            codeArray[i] = code.get(i);  
 //            System.out.println(codeArray[i]);
 //        }
-        codeLookupTable = code;
-        return code;
+  
     }
 
+    // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
+    public static void main(String[] args) throws IOException { 
+       // #Test1 - CountFrequency()
+        String inputFile = "hej.txt";
+        String outputFile = "hej_zippy.txt";
+        Encode encode = new Encode();
+        encode.countFrequencyOfBytes(outputFile);  
+//        System.out.println(encode.alphabet[104]);
+//        System.out.println(encode.alphabet[107]);
+
+        // #Test2 - huffmanAlgorithm()
+        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
+        // Uses the created graph  & adds it to the tree
+        encode.huffManTree = new DictBinTree();
+        encode.huffManTree.root = binNode;
+        
+        //Test 3a:
+        encode.huffManTree.in_order_walk_with_path();
+        
+        // Test 3b:
+        encode.createCodeLookupTable(encode.huffManTree);
+        
+
+        
+        // Test 4:
+        encode.writeIntsToOutput(encode.alphabet, outputFile);
+        
+        
+        
+        
+     // TEST OF SAVECODE  
+     
+      // encode.saveCode(dictBinTree);
+        
+        
+
+//        System.out.println(alphabet[3]);
+    }
+
+    
+
+
+
     //task 4)  Write alphabet into outputfile
-    public void writeIntsTOoOutput(int[] alphabeth, String outFile) throws IOException {
-        try ( FileOutputStream output = new FileOutputStream(outFile);  BitOutputStream out = new BitOutputStream(output);) {
+    public void writeIntsToOutput(int[] alphabeth, String outFile) throws IOException {
+        try (FileOutputStream output = new FileOutputStream(outFile);
+                BitOutputStream out = new BitOutputStream(output);) {
+            
+            out.writeInt(10);
             for (int i : alphabeth) {
                 out.writeInt(i);
             }
         }
-
     }
 
+    
+    
+    
+    
+    
+    
     //task 5)   
     public void WriteInput(String inputFile, String outputFile) throws IOException {
 
