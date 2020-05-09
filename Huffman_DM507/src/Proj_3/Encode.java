@@ -10,8 +10,11 @@ package Proj_3;
     // Tests Done - Pretty sure it works as intended  but need revisit 
         // Works : Checked if I return the last Node in the Heap()
 // Method 3a:  dictBinTree.in_order_walk_with_path()
-    // Questions: Does it make any difference what I set as the key ?  Isn't it irrelevant ? 
+    // Questions: Does it make any difference what I set as the key ?  Isn't it irrelevant ?
+    // TODO: Clean this method up  - I have ArrayList implementation still int and other weird things. 
 // Method 3b:  saveCode
+    // TODO: Clean up the code ; there is many double work in it 
+    // TODO
 
 
 import java.io.FileInputStream;
@@ -168,18 +171,26 @@ public class Encode {
         String[] code = tree.in_order_walk_with_path();
         System.out.println("Length of ArrayList: " + code.length);
         
-        String[] codeArray = new String[256];
+
+
+
+        // Used for test
+//        for (int i = 0; i < 255; i++) {
+//            
+//            System.out.println(i + ": " + code[i]);
+//            
+//        }
         // make toArray later
 
 //        for (int i = 0; i < code.length - 1; i++) {
 //            codeArray[i] = code.get(i);  
 //            System.out.println(codeArray[i]);
 //        }
-        codeLookupTable = codeArray;
-        return codeArray;
+        codeLookupTable = code;
+        return code;
     }
 
-    //task 4)  Write alphabeth into outputfile
+    //task 4)  Write alphabet into outputfile
     public void writeIntsTOoOutput(int[] alphabeth, String outFile) throws IOException {
         try ( FileOutputStream output = new FileOutputStream(outFile);  BitOutputStream out = new BitOutputStream(output);) {
             for (int i : alphabeth) {

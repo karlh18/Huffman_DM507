@@ -41,15 +41,15 @@ public class DictBinTree implements Dict {
     private String[]  in_order_walk_helper(String path, BinNode node, String[] code) {
 //        ArrayList<String> codes = new ArrayList<String>;
         if (node != null) {
-            in_order_walk_helper(path + "O", node.binNodeLeft, code); //left subtree
-            System.out.println("Key " + node.key + ": " + path); // Print the key and the path -- Think it makes no difference what the key is  ; hmm // used for test 
+            in_order_walk_helper(path + "0", node.binNodeLeft, code); //left subtree
+//            System.out.println("Key " + node.key + ": " + path); // Print the key and the path -- Think it makes no difference what the key is  ; hmm // used for test 
             
             // Makes sure it only reads only leaves, and therefore doesn't add duplicates. 
             if(node.binNodeLeft == null && node.binNodeRight ==null){
                 code[node.key] = path;
            
             }
-            in_order_walk_helper(path + "I", node.binNodeRight, code); // Right subtree
+            in_order_walk_helper(path + "1", node.binNodeRight, code); // Right subtree
         }
 //        System.out.println("total: " + code.length); // Used for test
         return code;
