@@ -46,9 +46,12 @@ public class Decode {
         
         DictBinTree dictBinTree = new DictBinTree();   
          
-        dictBinTree.root = huffmantree; 
+        dictBinTree.root = huffmantree;
         
-        decode.treewalk(huffmantree, binput, foutput);
+        while(finput.available() != 0){
+         decode.treewalk(huffmantree, binput, foutput);
+        }
+       
     }
 
  
@@ -191,6 +194,7 @@ public class Decode {
 
         while (true) {
             if (rootnode.binNodeLeft == null && rootnode.binNodeRight == null) {
+                System.out.println("BitPrefix"+bitprefix);
                 fileoutput.write(rootnode.key); 
                 System.out.println(rootnode.key);
                 return rootnode.key; 
