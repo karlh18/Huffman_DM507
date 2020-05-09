@@ -22,7 +22,7 @@ package Proj_3;
 // Method 5: writeCodeWordsToOutput()
     // TODO: Need to figure out how to use the same streams so don't have to open all again and again
     // TODO: Figure out best way to write after written the ints into -- probably just use same stream and thuse write from thereof ... 
-
+    // TODO: Something wrong with how I writeBit  
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -58,7 +58,7 @@ public class Encode {
             // Use the read method from FileInputStream  to read a byte (8bits) from a file
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitInputstream 
             while ((temp = input.read()) != -1) {
-//                System.out.println(temp); // used to test if it reads correct
+                System.out.println(temp); // used to test if it reads correct
                 alphabet[temp]++;
             }
         } catch (FileNotFoundException ex) {
@@ -154,7 +154,7 @@ public class Encode {
     public static void main(String[] args) throws IOException { 
        // #Test1 - CountFrequency()
        
-        System.out.println("");
+//        System.out.println("");
        
        
         String inputFile = "hej.txt";
@@ -165,27 +165,27 @@ public class Encode {
 //        System.out.println(encode.alphabet[107]);
 
         // #Test2 - huffmanAlgorithm()
-        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
+//        BinNode binNode = encode.huffmanAlgorithm(encode.alphabet);  // works 
         // Uses the created graph  & adds it to the tree
-        encode.huffManTree = new DictBinTree();
-        encode.huffManTree.root = binNode;
+//        encode.huffManTree = new DictBinTree();
+//        encode.huffManTree.root = binNode;
         
         //Test 3a:
-        encode.huffManTree.in_order_walk_with_path();
+//        encode.huffManTree.in_order_walk_with_path();
         
         // Test 3b:
-        encode.createCodeLookupTable(encode.huffManTree);
+//        encode.createCodeLookupTable(encode.huffManTree);
         
 
         
         // Test 4:
             // Tests that need to be conducted:
             // Check to see how many bytes are written 
-        encode.writeIntsToOutput(encode.alphabet, outputFile);
+//        encode.writeIntsToOutput(encode.alphabet, outputFile);
         
         
         //Test 5: 
-        encode.writeCodeWordsToOutput(inputFile, outputFile);
+      //  encode.writeCodeWordsToOutput(inputFile, outputFile);
         
         
         
