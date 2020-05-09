@@ -186,7 +186,7 @@ public class Decode {
 
         int counter = 0;
         int numBytes =calcBytes(occurenceTable);
-      
+         System.out.println("occurrenceTable: " + occurenceTable[106]);
         BinNode resetBinNode = rootNode;  
         String bitprefix = "";
         int readBit;
@@ -197,9 +197,9 @@ public class Decode {
 
         while (counter < numBytes ) {
             if (rootNode.binNodeLeft == null && rootNode.binNodeRight == null) {
-                System.out.println("BitPrefix"+bitprefix);
+                System.out.println("BitPrefix: " + bitprefix);
                 fileoutput.write(rootNode.key); 
-                System.out.println(rootNode.key);
+                System.out.println("rootNode.key: " + rootNode.key);
                 
                 // reset
                 bitprefix ="";
@@ -208,7 +208,10 @@ public class Decode {
             }
 
             readBit = inputStream.readBit();
-
+            if (readBit == -1){
+                break;
+            }
+            System.out.println("readbit: " + readBit);
             if (readBit == 0) {
 
                 rootNode = rootNode.binNodeLeft;
