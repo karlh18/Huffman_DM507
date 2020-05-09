@@ -24,18 +24,31 @@ public class Decode {
     public static void main(String[] args) throws IOException {
         Decode decode = new Decode();
 
-        String inputFile = "hej.txt";
-        String outputFile = "hej_zippy.txt";
-        decode.occurenceTable = decode.readoccurenceTable(outputFile);
+        String inputFile = "hej_zippy.txt";
+        String outputFile = "hejsa.txt";
+        
+        
+        FileInputStream finput = new FileInputStream(inputFile);  
+        FileOutputStream foutput = new FileOutputStream(outputFile);
+        BitInputStream binput = new BitInputStream(finput); 
+        BitOutputStream boutput = new BitOutputStream(foutput); 
+        
+        
+        
+        decode.occurenceTable = decode.readoccurenceTable(inputFile,finput,binput); 
+        
+        
         System.out.println("104 "+decode.occurenceTable[104]);
         System.out.println("101 "+decode.occurenceTable[101]);
-        System.out.println("107 "+decode.occurenceTable[107]);
+        System.out.println("106 "+decode.occurenceTable[106]);
 
         BinNode huffmantree = decode.huffmanAlgorithm(decode.occurenceTable); 
         
-        DictBinTree dictBinTree = new DictBinTree(); 
+        DictBinTree dictBinTree = new DictBinTree();   
          
-        dictBinTree.root = huffmantree;
+        dictBinTree.root = huffmantree; 
+        
+        decode.treewalk(huffmantree, binput, foutput);
     }
 
  
@@ -43,12 +56,11 @@ public class Decode {
   
 
     // task 1  read  the Occurence table from the inputfile for the 256 bytes. It works
-    public int[] readoccurenceTable(String inputFile) throws IOException {
+    public int[] readoccurenceTable(String inputFile, FileInputStream input, BitInputStream  bitInput ) throws IOException {
 
         int temp;
         // Opens File to read from 
-        try ( FileInputStream input = new FileInputStream(inputFile); 
-              BitInputStream bitInput = new BitInputStream(input);) {
+        try  {
             // "For at læse bytes fra en fil, skal man bruge read-metoden fra FileInputStream" 
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitINputstream 
 
@@ -171,15 +183,18 @@ public class Decode {
            return freqTable;  
     }
 
-     public int treewalk(BinNode rootnode, BitInputStream inputStream) throws IOException {
+     public int treewalk(BinNode rootnode, BitInputStream inputStream, FileOutputStream fileoutput) throws IOException {
 
         int count;
-        BinNode resetBinNode = rootnode;
+        BinNode resetBinNode = rootnode;  
         String bitprefix = "";
 
         while (true) {
             if (rootnode.binNodeLeft == null && rootnode.binNodeRight == null) {
-                return rootnode.key;
+                fileoutput.write(rootnode.key); 
+                System.out.println(rootnode.key);
+                return rootnode.key; 
+                
             }
 
             int readBit = inputStream.readBit();
@@ -192,7 +207,9 @@ public class Decode {
                 rootnode = rootnode.binNodeRight;
                 bitprefix += readBit;
 
-            }
+            }  
+            
+            
 
         }
 
