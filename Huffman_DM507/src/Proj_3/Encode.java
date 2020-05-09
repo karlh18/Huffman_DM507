@@ -17,13 +17,17 @@ package Proj_3;
     // TODO: Doesn't seem to be any reason to return anything in many of the methods since it sets thing on the encode class 
 // Method 4: createCodeLookupTable()
     // Not sure if works, but it adds integers into it atleast 
-    // via encoding bit -- if anything this is the method that needs the most 
+    // via encoding bit -- if anything this is the method that needs the most
+    // TODO:  Check the frequency ones and then check what their code is - because they should be the smallest ones 
+// Method 5: writeCodeWordsToOutput()
+    // TODO: Need to figure out how to use the same streams so don't have to open all again and again
+    // TODO: Figure out best way to write after written the ints into -- probably just use same stream and thuse write from thereof ... 
+
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -149,6 +153,10 @@ public class Encode {
     // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
     public static void main(String[] args) throws IOException { 
        // #Test1 - CountFrequency()
+       
+        System.out.println("");
+       
+       
         String inputFile = "hej.txt";
         String outputFile = "hej_zippy.txt";
         Encode encode = new Encode();
@@ -171,7 +179,18 @@ public class Encode {
 
         
         // Test 4:
+            // Tests that need to be conducted:
+            // Check to see how many bytes are written 
         encode.writeIntsToOutput(encode.alphabet, outputFile);
+        
+        
+        //Test 5: 
+        encode.writeCodeWordsToOutput(inputFile, outputFile);
+        
+        
+        
+        
+        
         
         
         
@@ -207,23 +226,34 @@ public class Encode {
     
     
     
-    //task 5)   
-    public void WriteInput(String inputFile, String outputFile) throws IOException {
-
-        // Vi skal læse fra inputfil et byte ad gangen for hvert byte skal vi kigge i Code tabellen og skrive de bytes i outputfil   
+    //task 5)   Read the inputfile again 
+                    // For each byte look at that int write those bits into the output file 
+                    // "101"  -> writeBit(1), writeBit(0), write(1) 
+    public void writeCodeWordsToOutput(String inputFile, String outputFile) throws IOException {   
         int tempByte;
+        
         // Opens File to read from 
-        try ( FileInputStream input = new FileInputStream(inputFile);  FileOutputStream output = new FileOutputStream(outputFile);  BitOutputStream bitput = new BitOutputStream(output);) {
-            // "For at læse bytes fra en fil, skal man bruge read-metoden fra FileInputStream" 
+        try ( FileInputStream input = new FileInputStream(inputFile);
+             FileOutputStream output = new FileOutputStream(outputFile);
+             BitOutputStream bitput = new BitOutputStream(output);) {
             // This read method reads 1 byte instead of 4 bytes like the read method of the library class BitINputstream 
-            while ((tempByte = input.read()) != 0) {
+            while ((tempByte = input.read()) != -1) {
                 // int temp = (int) flin.read(); 
                 System.out.println(tempByte);
-
                 String currentCode = codeLookupTable[tempByte];
+                System.out.println(currentCode);
+                int j;
                 for (int i = 0; i < currentCode.length() - 1; i++) {
-                    bitput.writeBit(currentCode.charAt(i));
-
+                    if (currentCode.charAt(i) == '1'){
+                        System.out.println(currentCode.charAt(i));
+                        bitput.writeBit(1);
+                    } else{
+                        System.out.println(currentCode.charAt(i));
+                        bitput.writeBit(0);
+                    }
+//                    j = currentCode.charAt(i);
+//                    System.out.println(j);
+//                    bitput.writeBit(1);
                 }
 
             }
