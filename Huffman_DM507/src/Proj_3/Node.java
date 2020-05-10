@@ -14,17 +14,17 @@ package Proj_3;
 
 public class Node {
     //Left Child
-    Node binNodeLeft;
+    Node  nodeLeft;
     //Right Child
-    Node binNodeRight;    
+    Node  nodeRight;    
    
     //key of Node
     int key;
 
     //Sets the value of the Node to zero children & the key parameter as its key
     public Node(int key) {
-        binNodeLeft = null;
-        binNodeRight = null;
+        nodeLeft = null;
+        nodeRight = null;
         this.key = key;
     }
     

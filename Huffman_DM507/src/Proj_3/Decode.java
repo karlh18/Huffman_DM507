@@ -20,6 +20,10 @@ public class Decode {
     public static void main(String[] args) throws IOException {
 
         // Open input and output byte streams to/from files.
+
+       //FileInputStream inFile = new FileInputStream(args[0]);  
+       //FileOutputStream outFile = new FileOutputStream(args[1]);  
+       
         FileInputStream inFile = new FileInputStream("hej_zippy.txt");
         FileOutputStream outFile = new FileOutputStream("hejsa.txt");
 
@@ -32,7 +36,7 @@ public class Decode {
         //Regenerates the Huffman-Tree from the occurencetable
         Node huffmanNodes = huffmanAlgorithm(alphabet);
 
-        // Finally calling the traversing method. 
+        // converts the codewords to regular bytes to be written to the outputfile
         treewalk(huffmanNodes, in, outFile);
 
     }
@@ -83,8 +87,8 @@ public class Decode {
 
             // Creates new node & adds the two extracted nodes as children to it
             Node z = new Node(sum); // The sum of this one is irrelevant. 
-            z.binNodeLeft = (Node) x.getData();
-            z.binNodeRight = (Node) y.getData();
+            z.nodeLeft = (Node) x.getData();
+            z.nodeRight = (Node) y.getData();
 
             // Adds the new node to the priority queue
             priorityQueue.insert(new Element(sum, z));
@@ -98,27 +102,28 @@ public class Decode {
 
         int counter = 0; // Keeps track of how many bytes we have written so far so we know when to stop. 
         Node resetBinNode = rootNode; // sets the node to the root.  
-        String bitprefix = ""; // used to append the different bits from readbit 
+        String bitprefix = "";  // used to append the different bits from readbit 
         int readBit;
 
-        while ((counter < byteAmount) && (readBit = inputStream.readBit()) != -1) {
-            if (rootNode.binNodeLeft == null && rootNode.binNodeRight == null) {
-                System.out.println("BitPrefix: " + bitprefix);
+        while ((counter < byteAmount) && (readBit = inputStream.readBit()) != -1) {  // 
+            // if the leaf is found then write its key to the output file and increment the counter to keep track of bytes written   
+            if (rootNode.nodeLeft == null && rootNode.nodeRight == null) {
+               
                 fileoutput.write(rootNode.key);
-                System.out.println("rootNode.key: " + rootNode.key);
+             
                 counter++;
-                // reset
-                bitprefix = "";
+                  // resets the Node to the rootNode
+                bitprefix = ""; 
                 rootNode = resetBinNode;
 
             }
             // If currentbit = 0 then write 0 to outputfile
             if (readBit == 0) {
-                rootNode = rootNode.binNodeLeft;
+                rootNode = rootNode.nodeLeft;
                 bitprefix += readBit;
                 // if readBit = 1 then write 1 to outputfile
             } else if (readBit == 1) {
-                rootNode = rootNode.binNodeRight;
+                rootNode = rootNode.nodeRight;
                 bitprefix += readBit;
             }
         }

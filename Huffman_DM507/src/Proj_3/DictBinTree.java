@@ -41,13 +41,13 @@ public class DictBinTree implements Dict {
     // Recursively adds "0" to the codeword if it goes left & adds "1" if it goes right - When leaf is found it adds said path to the correct Array Index
     private String[] in_order_walk_helper(String path, Node node, String[] code) {
         if (node != null) {
-            in_order_walk_helper(path + "0", node.binNodeLeft, code); //left subtree
+            in_order_walk_helper(path + "0", node.nodeLeft, code); //left subtree
 
             // Makes sure it only reads leaves, and therefore doesn't add duplicates. 
-            if (node.binNodeLeft == null && node.binNodeRight == null) {
+            if (node.nodeLeft == null && node.nodeRight == null) {
                 code[node.key] = path;
             }
-            in_order_walk_helper(path + "1", node.binNodeRight, code); // Right subtree
+            in_order_walk_helper(path + "1", node.nodeRight, code); // Right subtree
         }
         return code;
     }
@@ -89,11 +89,11 @@ public class DictBinTree implements Dict {
         // if root = null return an empty ArrayList
         if (x != null) {
             // Travels recursively down the DictBinTree to the left until it finds null
-            orderedTraversal(x.binNodeLeft, nodes);
+            orderedTraversal(x.nodeLeft, nodes);
             // Then adds the key found
             nodes.add(x.key);
             // Travels recursively down the DictBinTree to the right until it finds null 
-            orderedTraversal(x.binNodeRight, nodes);
+            orderedTraversal(x.nodeRight, nodes);
 
         }
         // Returns the Arraylist sorted
@@ -135,10 +135,10 @@ public class DictBinTree implements Dict {
 
         // If k is less current Node go left
         if (k < binNode.key) {
-            return search(binNode.binNodeLeft, k);
+            return search(binNode.nodeLeft, k);
             // otherwise go right
         } else {
-            return search(binNode.binNodeRight, k);
+            return search(binNode.nodeRight, k);
         }
     }
 
@@ -164,10 +164,10 @@ public class DictBinTree implements Dict {
         while (x != null) {
             y = x;
             if (k < x.key) {
-                x = x.binNodeLeft;
+                x = x.nodeLeft;
 
             } else {
-                x = x.binNodeRight;
+                x = x.nodeRight;
             }
 
         }
@@ -177,10 +177,10 @@ public class DictBinTree implements Dict {
             root = new Node(k);
         } // Insert a Node with k as its key on the left side  
         else if (k < y.key) {
-            y.binNodeLeft = new Node(k);
+            y.nodeLeft = new Node(k);
             // Insert a Node with k as its key on the right side
         } else {
-            y.binNodeRight = new Node(k);
+            y.nodeRight = new Node(k);
         }
     }
 }

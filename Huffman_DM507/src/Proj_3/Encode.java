@@ -19,11 +19,17 @@ public class Encode {
 
     // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
     public static void main(String[] args) throws IOException {
-
-        // Open input and output byte streams to/from files.
+        
+        // Open input and output byte streams to/from files.  
+       //FileInputStream inFile = new FileInputStream(args[0]);  
+       //FileOutputStream outFile = new FileOutputStream(args[1]);   
+       
+        // Open input and output byte streams to/from files. // skal fjernes 
         FileInputStream inFile = new FileInputStream("hej.txt");
         FileOutputStream outFile = new FileOutputStream("hej_zippy.txt");
 
+        
+        
         // Wrap the new bit streams around the input/output streams.
         BitOutputStream out = new BitOutputStream(outFile);
 
@@ -89,8 +95,8 @@ public class Encode {
 
             // Creates new node & adds the two extracted nodes as children to it
             Node z = new Node(sum); // The sum of this one is irrelevant. 
-            z.binNodeLeft = (Node) x.getData();
-            z.binNodeRight = (Node) y.getData();
+            z.nodeLeft = (Node) x.getData();
+            z.nodeRight = (Node) y.getData();
 
             // Adds the new node to the priority queue
             priorityQueue.insert(new Element(sum, z));
@@ -124,4 +130,6 @@ public class Encode {
         } catch (IOException e) {
         }
     }
+    
+    
 }
