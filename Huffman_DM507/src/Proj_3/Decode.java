@@ -196,20 +196,21 @@ public class Decode {
 //        for(int i = 0; i<32; i++){
 //            readBit = inputStream.readBit();
 //        }
-        
-        while (counter < numBytes ) {
+       
+        while ((counter < numBytes) && (readBit = inputStream.readBit()) != -1) {
             if (rootNode.binNodeLeft == null && rootNode.binNodeRight == null) {
                 System.out.println("BitPrefix: " + bitprefix);
                 fileoutput.write(rootNode.key); 
                 System.out.println("rootNode.key: " + rootNode.key);
-                
+                counter ++;
                 // reset
                 bitprefix ="";
                 rootNode = resetBinNode;
                 
             }
+            
 
-            readBit = inputStream.readBit();
+//            readBit = inputStream.readBit();
 //            if (readBit == -1){
 //                break;
 //            }

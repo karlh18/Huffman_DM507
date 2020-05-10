@@ -30,10 +30,10 @@ public class Encode {
         FileOutputStream outFile = new FileOutputStream("hej_zippy.txt");
 
         // Wrap the new bit streams around the input/output streams.
-        BitInputStream in = new BitInputStream(inFile);
         BitOutputStream out = new BitOutputStream(outFile);
         
         countFrequencyOfBytes(inFile); //Reads a file anc checks how frequent a given byte occurs
+        inFile = new FileInputStream("hej.txt");    // resets the stream  - so it can read again from start
         
         //Generates a Huffman-Tree
         BinNode huffmanNodes = huffmanAlgorithm(alphabet);
@@ -43,21 +43,14 @@ public class Encode {
         // Generates a CodeLookupTable from the huffmanTree
         codeLookupTable = createCodeLookupTable(huffmanTree);
         
+        // Writes the OccurrenceTable & The Code Words to the output File
+        writeToOutPut(alphabet,inFile, outFile, out );
         
-        
-        
-//        // Test 4:
-//        // Tests that need to be conducted:
-//        // Check to see how many bytes are written 
-//      //  encode.writeIntsToOutput(encode.alphabet, inputFile);
-//        
-//        encode.writeToOutPut(encode.alphabet,inputFile,outputFile);
-//
-//        //Test 5: 
-//        // encode.writeCodeWordsToOutput(inputFile, outputFile);
-        // TEST OF SAVECODE  
-        // encode.saveCode(dictBinTree);
-//        System.out.println(alphabet[3]);
+        // Closes the streams. 
+        out.close();
+        inFile.close();
+        outFile.close();
+
     }
     
     // Task 1)  Reads a file and makes a table of how often a given byte occurs in the file    
@@ -123,21 +116,18 @@ public class Encode {
     
 
    
-    // new method --> scan input     
-    
-    
      // Task 4 (Write alphabet into outputfile) & 5
     
-// Figure out how to write correct bits each time
-    // Figure out if should use Stream as parameter so it doesn't overrride the other method
-    // Test file if it works as intended 
+
     //task 5)   Read the inputfile again 
     // For each byte look at that int write those bits into the output file 
     // "101"  -> writeBit(1), writeBit(0), write(1) 
     public static  void writeToOutPut(int[] alphabeth,FileInputStream in, FileOutputStream output, BitOutputStream out) throws FileNotFoundException, IOException {
         // takes the 256 integers representing occurrences and writes dem down.
-        // then the input file is scanned where each char is read to find its codeword in order, which then will be printed to the output file.  
+        // then the input file is scanned where each char is read to find its codeword in order, which then will be printed to the output file. 
+        
         try {
+            
             for (int i : alphabeth) {
                 out.writeInt(i);
 
@@ -146,29 +136,23 @@ public class Encode {
             e.printStackTrace();
 
         }
-        System.out.println("104 " + codeLookupTable[104]);
-        System.out.println("101 " + codeLookupTable[101]);
 
-        System.out.println("106 " + codeLookupTable[106]);
+        
+       
         while (in.available() != 0) {
 
             int i = in.read();
 
-            System.out.println("LOOKUP " + codeLookupTable[i]);
 
             char[] temp = codeLookupTable[i].toCharArray();
-
             for (char c : temp) {
 
                 out.writeBit(Character.getNumericValue(c));
 
-                System.out.println("char : " + c + " Value = " + c + " Value of the char " + Character.getNumericValue(c));
             }
 
         }
         
-        in.close();
-        out.close();
 
     }
 }
