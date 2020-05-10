@@ -1,13 +1,10 @@
 package Proj_3; //Delete this before Aflevering
-                // And change arguments in main to args[0], args[1]
+// And change arguments in main to args[0], args[1]
 
-  
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Karl Amadeus Finsson Hansen - karlh18@student.sdu.dk
@@ -19,40 +16,38 @@ public class Encode {
     static int[] alphabet = new int[256]; // Stores each byte as an int in the indexes - Also called occurrence table
     static String[] codeLookupTable; // // Used to store the prefix code for each byte
     static DictBinTree huffManTree; // // HuffMan Tree
-    
-    
 
     // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
     public static void main(String[] args) throws IOException {
-        
+
         // Open input and output byte streams to/from files.
         FileInputStream inFile = new FileInputStream("hej.txt");
         FileOutputStream outFile = new FileOutputStream("hej_zippy.txt");
 
         // Wrap the new bit streams around the input/output streams.
         BitOutputStream out = new BitOutputStream(outFile);
-        
+
         countFrequencyOfBytes(inFile); //Reads a file anc checks how frequent a given byte occurs
         inFile = new FileInputStream("hej.txt");    // resets the stream  - so it can read again from start
-        
+
         //Generates a Huffman-Tree
-        BinNode huffmanNodes = huffmanAlgorithm(alphabet);
+        Node huffmanNodes = huffmanAlgorithm(alphabet);
         DictBinTree huffmanTree = new DictBinTree();
         huffmanTree.root = huffmanNodes;
-        
+
         // Generates a CodeLookupTable from the huffmanTree
         codeLookupTable = createCodeLookupTable(huffmanTree);
-        
+
         // Writes the OccurrenceTable & The Code Words to the output File
-        writeToOutPut(alphabet,inFile, outFile, out );
-        
+        writeToOutPut(alphabet, inFile, outFile, out);
+
         // Closes the streams. 
         out.close();
         inFile.close();
         outFile.close();
 
     }
-    
+
     // Task 1)  Reads a file and makes a table of how often a given byte occurs in the file    
     public static void countFrequencyOfBytes(FileInputStream input) throws IOException {
 
@@ -65,7 +60,7 @@ public class Encode {
 
     //Task 2) Use the Huffman Algorithm with the alphabet Table as input ( Use all 256 entries, also those, that do not occur  
     // Creates a HuffmanTree
-    public static BinNode huffmanAlgorithm(int[] alphabet) {
+    public static Node huffmanAlgorithm(int[] alphabet) {
 
         int n = alphabet.length; // length of the alphabet
 
@@ -76,7 +71,7 @@ public class Encode {
         for (int i = 0; i < n; i++) {
 
             // Each node represents a character(byte)
-            BinNode node = new BinNode(i);
+            Node node = new Node(i);
 
             // Add an Element to the queue:  Frequency as Key in Element & the Tree/Node as data 
             Element e = new Element(alphabet[i], node);
@@ -93,31 +88,26 @@ public class Encode {
             int sum = x.getKey() + y.getKey(); // sum used as key for a newly created Node, which will have the two extracted nodes as children  
 
             // Creates new node & adds the two extracted nodes as children to it
-            BinNode z = new BinNode(sum); // The sum of this one is irrelevant. 
-            z.binNodeLeft = (BinNode) x.getData();
-            z.binNodeRight = (BinNode) y.getData();
+            Node z = new Node(sum); // The sum of this one is irrelevant. 
+            z.binNodeLeft = (Node) x.getData();
+            z.binNodeRight = (Node) y.getData();
 
             // Adds the new node to the priority queue
             priorityQueue.insert(new Element(sum, z));
         }
-        return (BinNode) priorityQueue.extractMin().getData(); // Returns the root of the tree
+        return (Node) priorityQueue.extractMin().getData(); // Returns the root of the tree
     }
 
-    
-    
     //Task 3 )  Converts the Huffman Tree to a Code Lookup Table (An Array with 256 entries)
-        // Each byte will thus have a String similar to : "101"    
+    // Each byte will thus have a String similar to : "101"    
     public static String[] createCodeLookupTable(DictBinTree tree) {
         // Uses the code from the DictBinTree that traverses through the tree
         String[] code = tree.in_order_walk_with_path();
         return code;
-  }
+    }
 
-    
-
-   
     //task 4 & 5)   Writes the occurenceTable(Hyppighedstabellen) at the start of the file & then subsequentially writes for each byte its corresponding codeWord to the file 
-    public static  void writeToOutPut(int[] occurrenceTable,FileInputStream in, FileOutputStream output, BitOutputStream out) throws FileNotFoundException, IOException {
+    public static void writeToOutPut(int[] occurrenceTable, FileInputStream in, FileOutputStream output, BitOutputStream out) throws FileNotFoundException, IOException {
         try {
             // Writes the occurenceTable (Hyppighedstabellen) to the start of the file
             for (int i : occurrenceTable) {
@@ -132,7 +122,6 @@ public class Encode {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

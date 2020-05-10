@@ -1,7 +1,5 @@
-package Proj_3; 
+package Proj_3;
 
-import Proj_3.Element;
-import Proj_3.PQ;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,8 +39,6 @@ public class PQHeap implements PQ {
 
     }
 
-    
-    
     // Makes it into a Min Heap
     public void minHeapify(ArrayList<Element> a, int i) {
 
@@ -81,7 +77,6 @@ public class PQHeap implements PQ {
         }
     }
 
-    
     // Returns the element with the min
     @Override
     public Element extractMin() {
@@ -95,7 +90,7 @@ public class PQHeap implements PQ {
 
         // Remove the last index 
         heap.remove(heap.size() - 1);
-	// makes it a minheap again 
+        // makes it a minheap again 
         minHeapify(heap, 0);
 
         // returns the min 
@@ -103,10 +98,9 @@ public class PQHeap implements PQ {
 
     }
 
-    
     // Adds an element into the heap
-        // Basically adds an element to the end of the heap
-        // and then starts comparing it to the parent and swaps it until it on its rightful place
+    // Basically adds an element to the end of the heap
+    // and then starts comparing it to the parent and swaps it until it on its rightful place
     @Override
     public void insert(Element e) {
 
@@ -123,13 +117,10 @@ public class PQHeap implements PQ {
             Collections.swap(heap, i, parent(i));
 
             // Sets i to the parent  
-                // So it can keep comparing all the way up to the root if necessary
+            // So it can keep comparing all the way up to the root if necessary
             i = parent(i);
 
         }
 
     }
 }
-
-
-// Nicklas kommentar: Supder, det ser godt ud! Fint med kommentarer :)
