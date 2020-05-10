@@ -16,22 +16,16 @@ public class Encode {
 
     // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
     public static void main(String[] args) throws IOException {
-        
-        // Open input and output byte streams to/from files.  
-       //FileInputStream inFile = new FileInputStream(args[0]);  
-       //FileOutputStream outFile = new FileOutputStream(args[1]);   
-       
-        // Open input and output byte streams to/from files. // skal fjernes 
-        FileInputStream inFile = new FileInputStream("hej.txt");
-        FileOutputStream outFile = new FileOutputStream("hej_zippy.txt");
 
-        
-        
+        // Open input and output byte streams to/from files.  
+        FileInputStream inFile = new FileInputStream(args[0]);
+        FileOutputStream outFile = new FileOutputStream(args[1]);
+
         // Wrap the new bit streams around the input/output streams.
         BitOutputStream out = new BitOutputStream(outFile);
 
         countFrequencyOfBytes(inFile); //Reads a file anc checks how frequent a given byte occurs
-        inFile = new FileInputStream("hej.txt");    // resets the stream  - so it can read again from start
+        inFile = new FileInputStream(args[0]);    // resets the stream  - so it can read again from start
 
         //Generates a Huffman-Tree
         Node huffmanNodes = huffmanAlgorithm(alphabet);
@@ -43,15 +37,13 @@ public class Encode {
 
         // Writes the OccurrenceTable & The Code Words to the output File
         writeToOutPut(alphabet, inFile, outFile, out);
-        
+
         // Closes the streams. 
         out.close();
         inFile.close();
         outFile.close();
 
-//        System.out.println("The file " + args[0] + " has been successfully encoded to the file " + args[1]);
-        System.out.println("The file " + "hej.txt" + " has been successfully encoded to the file " + "hej_zippy.txt");
-        
+        System.out.println("The file " + args[0] + " has been successfully encoded to the file " + args[1]);
     }
 
     // Task 1)  Reads a file and makes a table of how often a given byte occurs in the file    
