@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class Encode {
 
-    static int[] alphabet = new int[256]; // Stores each byte as an int in the indexes
+    static int[] alphabet = new int[256]; // Stores each byte as an int in the indexes - Also called occurrence table
     static String[] codeLookupTable; // // Used to store the prefix code for each byte
     static DictBinTree huffManTree; // // HuffMan Tree
     
@@ -116,43 +116,23 @@ public class Encode {
     
 
    
-     // Task 4 (Write alphabet into outputfile) & 5
-    
-
-    //task 5)   Read the inputfile again 
-    // For each byte look at that int write those bits into the output file 
-    // "101"  -> writeBit(1), writeBit(0), write(1) 
-    public static  void writeToOutPut(int[] alphabeth,FileInputStream in, FileOutputStream output, BitOutputStream out) throws FileNotFoundException, IOException {
-        // takes the 256 integers representing occurrences and writes dem down.
-        // then the input file is scanned where each char is read to find its codeword in order, which then will be printed to the output file. 
-        
+    //task 4 & 5)   Writes the occurenceTable(Hyppighedstabellen) at the start of the file & then subsequentially writes for each byte its corresponding codeWord to the file 
+    public static  void writeToOutPut(int[] occurrenceTable,FileInputStream in, FileOutputStream output, BitOutputStream out) throws FileNotFoundException, IOException {
         try {
-            
-            for (int i : alphabeth) {
+            // Writes the occurenceTable (Hyppighedstabellen) to the start of the file
+            for (int i : occurrenceTable) {
                 out.writeInt(i);
-
             }
-        } catch (Exception e) {
+            // For each byte in inputFile it writes the corresponding codeword to outputfile
+            while (in.available() != 0) {
+                int i = in.read();
+                char[] temp = codeLookupTable[i].toCharArray();
+                for (char c : temp) {
+                    out.writeBit(Character.getNumericValue(c));
+                }
+            }
+        } catch (IOException e) {
             e.printStackTrace();
-
         }
-
-        
-       
-        while (in.available() != 0) {
-
-            int i = in.read();
-
-
-            char[] temp = codeLookupTable[i].toCharArray();
-            for (char c : temp) {
-
-                out.writeBit(Character.getNumericValue(c));
-
-            }
-
-        }
-        
-
     }
 }

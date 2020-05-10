@@ -38,27 +38,24 @@ public class DictBinTree implements Dict {
     
     String[] codeAlphabet = new String[256];
     
-    private String[]  in_order_walk_helper(String path, BinNode node, String[] code) {
-//        ArrayList<String> codes = new ArrayList<String>;
+    
+    // Recursively adds "0" to the codeword if it goes left & adds "1" if it goes right - When leaf is found it adds said path to the correct Array Index
+    private String[] in_order_walk_helper(String path, BinNode node, String[] code) {
         if (node != null) {
             in_order_walk_helper(path + "0", node.binNodeLeft, code); //left subtree
-//            System.out.println("Key " + node.key + ": " + path); // Print the key and the path -- Think it makes no difference what the key is  ; hmm // used for test 
-            
-            // Makes sure it only reads only leaves, and therefore doesn't add duplicates. 
-            if(node.binNodeLeft == null && node.binNodeRight ==null){
+
+            // Makes sure it only reads leaves, and therefore doesn't add duplicates. 
+            if (node.binNodeLeft == null && node.binNodeRight == null) {
                 code[node.key] = path;
-           
             }
             in_order_walk_helper(path + "1", node.binNodeRight, code); // Right subtree
         }
-//        System.out.println("total: " + code.length); // Used for test
-
-//        System.out.println(code[104]);
         return code;
     }
     
+    // Wrapper
     public String[] in_order_walk_with_path(){
-        return in_order_walk_helper("", root, new String[256]); // call the helper with an // empty path and the root node
+        return in_order_walk_helper("", root, new String[256]); // call the helper with an an empty String Array which will be used to store the codeWords
     }
     
     
