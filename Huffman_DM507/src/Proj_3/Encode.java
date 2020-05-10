@@ -1,6 +1,3 @@
-package Proj_3; //Delete this before Aflevering
-// And change arguments in main to args[0], args[1]
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -46,12 +43,15 @@ public class Encode {
 
         // Writes the OccurrenceTable & The Code Words to the output File
         writeToOutPut(alphabet, inFile, outFile, out);
-
+        
         // Closes the streams. 
         out.close();
         inFile.close();
         outFile.close();
 
+//        System.out.println("The file " + args[0] + " has been successfully encoded to the file " + args[1]);
+        System.out.println("The file " + "hej.txt" + " has been successfully encoded to the file " + "hej_zippy.txt");
+        
     }
 
     // Task 1)  Reads a file and makes a table of how often a given byte occurs in the file    

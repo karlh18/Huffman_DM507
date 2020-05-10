@@ -1,5 +1,3 @@
-package Proj_3;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,6 +37,9 @@ public class Decode {
         // converts the codewords to regular bytes to be written to the outputfile
         treewalk(huffmanNodes, in, outFile);
 
+//       System.out.println("The file " + args[0] + " has been successfully Decoded into the file " + args[1] );
+       System.out.println("The file " + "hej_zippy.txt" + " has been successfully Decoded into the file " + "hejsa.txt" );
+        
     }
 
     // Task 1)  reads  the Occurence table(Hyppighedstabellen) from the inputfile for the 256 bytes. & Calculates the number of bytes read
@@ -52,7 +53,7 @@ public class Decode {
                 byteAmount += occurenceTable[i]; // Creates byteAmount 
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Encode.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FileNotFound");
         }
         return occurenceTable;
     }

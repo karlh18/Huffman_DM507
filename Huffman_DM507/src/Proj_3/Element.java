@@ -1,5 +1,3 @@
-package Proj_3;
-
 public class Element {
 
     private int key;

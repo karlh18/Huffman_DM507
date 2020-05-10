@@ -1,6 +1,3 @@
-package Proj_3;
-
-
 /**
  * @author Karl Amadeus Finsson Hansen - karlh18@student.sdu.dk
  * @author Pradeep Thayaparan - prtha18@student.sdu.dk

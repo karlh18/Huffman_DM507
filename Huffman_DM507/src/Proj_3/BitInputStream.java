@@ -1,5 +1,3 @@
-package Proj_3; // Delete this before Hand-In
-
 import java.io.IOException;
 import java.io.InputStream;
 
