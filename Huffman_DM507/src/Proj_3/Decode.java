@@ -18,11 +18,8 @@ public class Decode {
     public static void main(String[] args) throws IOException {
 
         // Open input and output byte streams to/from files.
-//        FileInputStream inFile = new FileInputStream(args[0]);
-//        FileOutputStream outFile = new FileOutputStream(args[1]);
-      
-        FileInputStream inFile = new FileInputStream("same2.txt");
-        FileOutputStream outFile = new FileOutputStream("same3.txt");
+        FileInputStream inFile = new FileInputStream(args[0]);
+        FileOutputStream outFile = new FileOutputStream(args[1]);
       
         // Wrap the new bit streams around the input stream.
         BitInputStream in = new BitInputStream(inFile);
@@ -41,7 +38,7 @@ public class Decode {
         inFile.close();
         outFile.close();
 
-//        System.out.println("The file " + args[0] + " has been successfully Decoded into the file " + args[1]);
+        System.out.println("The file " + args[0] + " has been successfully Decoded into the file " + args[1]);
     }
 
     // Task 1)  reads  the Occurence table(Hyppighedstabellen) from the inputfile for the 256 bytes. & Calculates the number of bytes read

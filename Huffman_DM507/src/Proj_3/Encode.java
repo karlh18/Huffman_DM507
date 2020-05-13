@@ -17,17 +17,14 @@ public class Encode {
     public static void main(String[] args) throws IOException {
 
         // Open input and output byte streams to/from files.  
-//        FileInputStream inFile = new FileInputStream(args[0]);
-//        FileOutputStream outFile = new FileOutputStream(args[1]);
-        // Open input and output byte streams to/from files.  
-        FileInputStream inFile = new FileInputStream("same.txt");
-        FileOutputStream outFile = new FileOutputStream("same2.txt");
-
+        FileInputStream inFile = new FileInputStream(args[0]);
+        FileOutputStream outFile = new FileOutputStream(args[1]);
+    
         // Wrap the new bit streams around the output stream.
         BitOutputStream out = new BitOutputStream(outFile);
 
         alphabet = countFrequencyOfBytes(inFile); //Reads a file and checks how frequent a given byte occurs
-        inFile = new FileInputStream("same.txt");    // resets the stream  - so it can read again from start
+        inFile = new FileInputStream(args[0]);    // resets the stream  - so it can read again from start
 
         //Generates a Huffman-Tree
         Node huffmanNodes = huffmanAlgorithm(alphabet);
