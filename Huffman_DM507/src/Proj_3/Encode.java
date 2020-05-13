@@ -17,14 +17,17 @@ public class Encode {
     public static void main(String[] args) throws IOException {
 
         // Open input and output byte streams to/from files.  
-        FileInputStream inFile = new FileInputStream(args[0]);
-        FileOutputStream outFile = new FileOutputStream(args[1]);
+//        FileInputStream inFile = new FileInputStream(args[0]);
+//        FileOutputStream outFile = new FileOutputStream(args[1]);
+        // Open input and output byte streams to/from files.  
+        FileInputStream inFile = new FileInputStream("same.txt");
+        FileOutputStream outFile = new FileOutputStream("same2.txt");
 
-        // Wrap the new bit streams around the output streams.
+        // Wrap the new bit streams around the output stream.
         BitOutputStream out = new BitOutputStream(outFile);
 
-        countFrequencyOfBytes(inFile); //Reads a file and checks how frequent a given byte occurs
-        inFile = new FileInputStream(args[0]);    // resets the stream  - so it can read again from start
+        alphabet = countFrequencyOfBytes(inFile); //Reads a file and checks how frequent a given byte occurs
+        inFile = new FileInputStream("same.txt");    // resets the stream  - so it can read again from start
 
         //Generates a Huffman-Tree
         Node huffmanNodes = huffmanAlgorithm(alphabet);
@@ -42,7 +45,7 @@ public class Encode {
         inFile.close();
         outFile.close();
 
-        System.out.println("The file \"" + args[0] + "\" has successfully been encoded to the file " + args[1]);
+//        System.out.println("The file \"" + args[0] + "\" has successfully been encoded to the file " + args[1]);
     }
 
     // Task 1)  Reads a file and creates a occurencetable. This table stores how often a given byte occurs in the file    

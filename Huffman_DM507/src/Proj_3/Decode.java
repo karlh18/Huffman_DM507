@@ -1,4 +1,3 @@
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class Decode {
 
-    static int[] alphabet = new int[256];
+    static int[] alphabet;
     static int byteAmount = 0;
 
     public static void main(String[] args) throws IOException {
@@ -21,15 +20,15 @@ public class Decode {
         // Open input and output byte streams to/from files.
 //        FileInputStream inFile = new FileInputStream(args[0]);
 //        FileOutputStream outFile = new FileOutputStream(args[1]);
-        // Open input and output byte streams to/from files.
+      
         FileInputStream inFile = new FileInputStream("same2.txt");
         FileOutputStream outFile = new FileOutputStream("same3.txt");
-
-        // Wrap the new bit streams around the input/output streams.
+      
+        // Wrap the new bit streams around the input stream.
         BitInputStream in = new BitInputStream(inFile);
 
         // Reads the occurencetable from the inputfile & stores them in an integer array
-        alphabet = readoccurenceTable(in);
+        alphabet = readOccurenceTable(in);
 
         //Regenerates the Huffman-Tree from the occurencetable
         Node huffmanNodes = huffmanAlgorithm(alphabet);
@@ -46,14 +45,14 @@ public class Decode {
     }
 
     // Task 1)  reads  the Occurence table(Hyppighedstabellen) from the inputfile for the 256 bytes. & Calculates the number of bytes read
-    public static int[] readoccurenceTable(BitInputStream bitInput) throws IOException {
+    public static int[] readOccurenceTable(BitInputStream bitInput) throws IOException {
 
-        int[] occurenceTable = new int[256];
+        int[] occurenceTable = new int[256]; // length of the array is 256 since that's how many different bytes/characters we can write 
 
         try {
             for (int i = 0; i < occurenceTable.length; i++) {
                 occurenceTable[i] = bitInput.readInt(); // This read method reads 1 byte and stores it in the correct index in the occurrence table
-                byteAmount += occurenceTable[i]; // Creates byteAmount 
+                byteAmount += occurenceTable[i]; // Keep track of total amount of bytes in the file 
             }
         } catch (FileNotFoundException ex) {
             System.out.println("FileNotFound");
@@ -109,7 +108,7 @@ public class Decode {
 
         do {
             readBit = inputStream.readBit();
-            // if the leaf is found then write its key to the output file and increment the counter to keep track of bytes written   
+            // if the leaf is found then write its key(which is the byte) to the output file and increment the counter to keep track of bytes written   
             if (rootNode.nodeLeft == null && rootNode.nodeRight == null) {
 
                 fileoutput.write(rootNode.key);
