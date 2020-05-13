@@ -69,10 +69,10 @@ public class Decode {
         //minHeap
         PQ priorityQueue = new PQHeap();
 
-        // Q = C : Initialize the Priority Queue with 256 items aka the Characters to the queue 
+        // Q = C : Initialize the Priority Queue with alphabet aka the occurenceTable
         for (int i = 0; i < n; i++) {
 
-            // Each node represents a character(byte)
+            // Each leaf-node represents a character(byte)
             Node node = new Node(i);
 
             // Add an Element to the queue:  Frequency as Key in Element & the Tree/Node as data 

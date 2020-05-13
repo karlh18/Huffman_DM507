@@ -10,21 +10,20 @@ import java.io.IOException;
  */
 public class Encode {
 
-    static int[] alphabet = new int[256]; // Stores each byte as an int in the indexes - Also called occurrence table
+    static int[] alphabet; // Stores each byte as an int in the indexes - Also referred to as the occurrence table
     static String[] codeLookupTable; // // Used to store the prefix code for each byte
     static DictBinTree huffManTree; // // HuffMan Tree
 
-    // Remember to change arguments in methods to args[0] for inputfile & args[1]for outputfile
     public static void main(String[] args) throws IOException {
 
         // Open input and output byte streams to/from files.  
         FileInputStream inFile = new FileInputStream(args[0]);
         FileOutputStream outFile = new FileOutputStream(args[1]);
 
-        // Wrap the new bit streams around the input/output streams.
+        // Wrap the new bit streams around the output streams.
         BitOutputStream out = new BitOutputStream(outFile);
 
-        countFrequencyOfBytes(inFile); //Reads a file anc checks how frequent a given byte occurs
+        countFrequencyOfBytes(inFile); //Reads a file and checks how frequent a given byte occurs
         inFile = new FileInputStream(args[0]);    // resets the stream  - so it can read again from start
 
         //Generates a Huffman-Tree
@@ -32,7 +31,7 @@ public class Encode {
         DictBinTree huffmanTree = new DictBinTree();
         huffmanTree.root = huffmanNodes;
 
-        // Generates a CodeLookupTable from the huffmanTree
+        // Generates a CodeWordLookupTable based on the huffmanTree
         codeLookupTable = createCodeLookupTable(huffmanTree);
 
         // Writes the OccurrenceTable & The Code Words to the output File
@@ -43,17 +42,18 @@ public class Encode {
         inFile.close();
         outFile.close();
 
-        System.out.println("The file " + args[0] + " has been successfully encoded to the file " + args[1]);
+        System.out.println("The file \"" + args[0] + "\" has successfully been encoded to the file " + args[1]);
     }
 
-    // Task 1)  Reads a file and makes a table of how often a given byte occurs in the file    
-    public static void countFrequencyOfBytes(FileInputStream input) throws IOException {
+    // Task 1)  Reads a file and creates a occurencetable. This table stores how often a given byte occurs in the file    
+    public static int[] countFrequencyOfBytes(FileInputStream input) throws IOException {
 
         int temp;  // Used to temporary store the current read() int
-
+        int[] occurenceTable = new int[256]; // The table that is filled up & then returned to the caller
         while ((temp = input.read()) != -1) {// Uses the read method from FileInputStream  to read a byte (8bits) from a file at a time
-            alphabet[temp]++;
+            occurenceTable[temp]++;
         }
+        return occurenceTable;
     }
 
     //Task 2) Use the Huffman Algorithm with the alphabet Table as input ( Use all 256 entries, also those, that do not occur  
@@ -65,10 +65,10 @@ public class Encode {
         //minHeap
         PQ priorityQueue = new PQHeap();
 
-        // Q = C : Initialize the Priority Queue with 256 items aka the Characters to the queue 
+        // Q = C : Initialize the Priority Queue with alphabet aka the occurenceTable 
         for (int i = 0; i < n; i++) {
 
-            // Each node represents a character(byte)
+            // Each leaf-node represents a character(byte)
             Node node = new Node(i);
 
             // Add an Element to the queue:  Frequency as Key in Element & the Tree/Node as data 
@@ -97,17 +97,20 @@ public class Encode {
     }
 
     //Task 3 )  Converts the Huffman Tree to a Code Lookup Table (An Array with 256 entries)
-    // Each byte will thus have a String similar to : "101"    
+    // Each byte will thus have a String similar to : "101"
+    // The method used is stored in the DictBinTree class and is called "tree.in_order_walk_with_path()"; 
     public static String[] createCodeLookupTable(DictBinTree tree) {
         // Uses the code from the DictBinTree that traverses through the tree
         String[] code = tree.in_order_walk_with_path();
         return code;
     }
 
-    //task 4 & 5)   Writes the occurenceTable(Hyppighedstabellen) at the start of the file & then subsequentially writes for each byte its corresponding codeWord to the file 
+    //task 4 & 5)
+        //Writes the occurenceTable(Hyppighedstabellen) at the start of the file
+        // And then then subsequentially writes for each byte its corresponding codeWord to the file 
     public static void writeToOutPut(int[] occurrenceTable, FileInputStream in, FileOutputStream output, BitOutputStream out) throws FileNotFoundException, IOException {
         try {
-            // Writes the occurenceTable (Hyppighedstabellen) to the start of the file
+            // Writes the occurenceTable (Hyppighedstabellen) to the start of the outputfile
             for (int i : occurrenceTable) {
                 out.writeInt(i);
             }
@@ -120,6 +123,7 @@ public class Encode {
                 }
             }
         } catch (IOException e) {
+            System.out.println("IO Exception");
         }
     }
     
