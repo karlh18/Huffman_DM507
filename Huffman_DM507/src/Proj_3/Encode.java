@@ -42,7 +42,7 @@ public class Encode {
         inFile.close();
         outFile.close();
 
-//        System.out.println("The file \"" + args[0] + "\" has successfully been encoded to the file " + args[1]);
+        System.out.println("The file \"" + args[0] + "\" has successfully been encoded to the file " + args[1]);
     }
 
     // Task 1)  Reads a file and creates a occurencetable. This table stores how often a given byte occurs in the file    
