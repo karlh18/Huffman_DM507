@@ -123,8 +123,6 @@ public class Decode {
                 rootNode = rootNode.nodeRight;
             }
         } while ((counter < byteAmount) && (readBit != -1));
-        // 
-        System.out.println("Counter is : " + counter);
 
     }
 }
