@@ -30,12 +30,10 @@ public class DictBinTree implements Dict {
         dog.in_order_walk_with_path();
     }
 
-    /**
-     * Output is the path to all the nodes in the tree
-     */
-    // path = code
-    String[] codeAlphabet = new String[256];
 
+    
+    
+    
     // Recursively adds "0" to the codeword if it goes left & adds "1" if it goes right - When leaf is found it adds said path to the correct Array Index
     private String[] in_order_walk_helper(String path, Node node, String[] code) {
         if (node != null) {
